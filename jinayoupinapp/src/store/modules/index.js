@@ -34,9 +34,11 @@ const mutations = {
     //为你精选scrollTo的同步
     scrollTo(state,payload){
         state.scrollToList = payload;
-        console.log(state.scrollToList)
+        console.log("scrollToList",state.scrollToList)
+    },
+    changePage(state,payload){
+        state.pageIndex=payload
     }
-
 }
 
 // 异步改变
@@ -66,12 +68,15 @@ const actions = {
         })
     },
     //为你精选scrollTo的数据
-    scrollTo({commit,state},payload){
-        let data=scrollTo(state.pageIndex);
-        data.then(res=>{
-            // console.log(res.result)
-            commit('scrollTo',res.result);
-        })
+  async scrollTo({commit,state},payload){
+        commit('changePage',payload)
+        
+        let data=await scrollTo(payload);
+        if(state.pageIndex===1){
+            commit('scrollTo',data.result);
+        }else{
+            commit('scrollTo',[...state.scrollToList,...data.result]);
+        }
     },
 }
 // 派生数据

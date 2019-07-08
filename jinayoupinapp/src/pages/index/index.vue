@@ -42,7 +42,9 @@
         <span>等你来抢</span>
       </div>
       <div class="lowerScroll">
-        <ScrollDl :scrollToList="scrollToList"></ScrollDl>
+        <ScrollDl :scrollToList="scrollToList" 
+        :isFreeShipping="isFreeShipping" 
+        :isFreeTax="isFreeTax"></ScrollDl>
       </div>
     </div>
   </scroll-view>
@@ -71,7 +73,10 @@ export default {
       console.log("上拉")
     },
     lower(){
-      console.log("下拉")
+     
+      
+      console.log("下拉",++this.pageIndex);
+      this.scrollTo(++this.pageIndex)
     }
   },
  computed: {
@@ -81,7 +86,8 @@ export default {
       sixProductList:state=>state.index.sixProductList,
       adOneList:state=>state.index.adOneList,
       recommendList:state=>state.index.recommendList,
-      scrollToList:state=>state.index.scrollToList
+      scrollToList:state=>state.index.scrollToList,
+      pageIndex:state=>state.index.pageIndex
    })
   },
   created () {
@@ -89,7 +95,7 @@ export default {
     //scroll的横向数据
     this.getRecommed();
     //scroll数据滚动加载的数据
-    this.scrollTo();
+    this.scrollTo(this.pageIndex);
   },
 
   components: {
