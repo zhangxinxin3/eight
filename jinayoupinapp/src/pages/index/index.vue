@@ -1,126 +1,96 @@
 <template>
-  <div @click="clickHandle">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
+  <div class="wrap">
+    <div class="searchBox">
+       <icon type="search" size="18"/>
+       <input type="text" placeholder="搜索">
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
+    <div class="recommendList">
     </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" :value="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-
-    <div class="all">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
-    </div>
+    <swiper class="swiperBox" :indicator-dots="true"
+      :autoplay="true" :interval="5000" :duration="1000">
+      <div class="itemDiv" v-for="(item,index) in swiperList" :key="index">
+        <swiper-item>
+          <image :src="item.imgUrl" class="slide-image" height="150"/>
+        </swiper-item>
+      </div>  
+    </swiper>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
+import {mapState,mapActions} from "vuex"
 
 export default {
   data () {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
+    
     }
-  },
-
-  components: {
-    card
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      if (mpvuePlatform === 'wx') {
-        mpvue.switchTab({ url })
-      } else {
-        mpvue.navigateTo({ url })
-      }
-    },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
-    }
+   ...mapActions({
+      swiperImg: 'index/swiperImg'
+    }),
+  },
+ computed: {
+   ...mapState({
+      swiperList:state=>state.index.swiperList
+   })
+  },
+  created () {
+    this.swiperImg();
   },
 
-  created () {
-    // let app = getApp()
+  components: {
+      
   }
 }
 </script>
 
-<style scoped>
-.userinfo {
+<style lang="scss"> 
+.wrap{
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.searchBox{
+  width: 100%;
+  height:40px;
+  background: rgb(246,246,246);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  border-radius: 5px;
+  icon{
+    margin: 0 10px;
+  }
+  input{
+    flex:1;
+    height: 90%;
+    color: rgb(246,246,246);
+    input::-webkit-input-placeholder {
+    color: rgb(246,246,246) !important; 
+    } 
+  }
 }
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.recommendList{
+  width: 100%;
+  height: 50px;
+  background: red;
+  margin-top: 10px;
 }
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
-}
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
-}
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
-}
-
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
+.swiperBox{
+  width: 100%;
+  height: 155px;
+  margin-top: 5px;
+  border-radius: 7px;
+  overflow: hidden;
+  .slide-image{
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
