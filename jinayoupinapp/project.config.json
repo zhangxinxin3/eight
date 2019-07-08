@@ -22,13 +22,39 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 2,
+			"list": [
+				{
+					"id": 0,
+					"name": "实名认证",
+					"pathName": "pages/mine/authenTication/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "收货地址",
+					"pathName": "pages/mine/shippingAddress/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "添加收货地址",
+					"pathName": "pages/mine/addAddress/main",
+					"query": "",
+					"scene": null
+				}
+			]
 		}
 	}
 }
