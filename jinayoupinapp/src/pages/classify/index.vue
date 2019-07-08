@@ -60,12 +60,14 @@ export default {
 .wrap{
  width:100%;
  height:100%;
+ background:#eee;
  .recommendList{
      width:100%;
      .scroll-view-list{
          width:201%;
      }
      ul{
+        background: #fff;
         width:201%;
         height:40px;
         display: flex;

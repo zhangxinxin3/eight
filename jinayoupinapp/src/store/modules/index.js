@@ -23,7 +23,7 @@ const mutations = {
     //到单独的组件里 将item保存到vuex里
     saveItem(state,payload){
        state.saveItemList = payload.childs;
-    //    console.log(this.saveItemList)
+       console.log(state.saveItemList)
     }
 }
 
