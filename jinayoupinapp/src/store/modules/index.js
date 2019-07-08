@@ -1,8 +1,10 @@
- import {getRecommed} from '@/service/index'
+ import {getRecommed,getClassify} from '@/service/index'
 
 const state={
     recommedList:'',
     saveItemList:[],
+    cid:'',
+    getclassifyList:[]
 }
 //异步改变
 const actions={
@@ -11,6 +13,18 @@ const actions={
         let data = getRecommed();
         data.then(res=>{
            commit('getRecommed',res.result)
+        })
+    },
+    getClassifyList({commit},payload){
+        console.log('payload',payload)
+        let obj={
+            pageIndex:payload.pageIndex,
+            cid:payload.cid,
+            sortType:payload.sortType
+        };
+        let data = getClassify(obj);
+        data.then(res=>{
+           commit('getClassify',res.result)
         })
     }
 
@@ -22,8 +36,12 @@ const mutations = {
     },
     //到单独的组件里 将item保存到vuex里
     saveItem(state,payload){
+       state.cid = payload.cid;
        state.saveItemList = payload.childs;
-       console.log(state.saveItemList)
+    },
+    getClassify(state,payload){
+        console.log(payload)
+        state.getclassifyList = payload;
     }
 }
 

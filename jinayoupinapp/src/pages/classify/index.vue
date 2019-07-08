@@ -11,6 +11,16 @@
         </scroll-view>
     </div>
     <classify :data="saveItemList"></classify>
+    <div class="menu">
+        <section>综合</section>
+        <section>最新</section>
+        <section>
+            价格
+            <span class="top"></span>
+            <span class="bottom"></span>
+        </section>
+    </div>
+    <classifyList :data="getclassifyList"></classifyList>
   </div>
  
 </template>
@@ -18,6 +28,7 @@
 <script>
 
 import classify from "@/components/classify"
+import classifyList from "@/components/classifyList"
 import { mapState, mapActions } from "vuex";
 
 
@@ -25,17 +36,22 @@ export default {
   data () {
   },
   components: {
-    classify
+    classify,
+    classifyList
   },
   computed: {
      ...mapState({
          recommedList:state=>state.index.recommedList,
-         saveItemList:state=>state.index.saveItemList
+         saveItemList:state=>state.index.saveItemList,
+         cid:state=>state.index.cid,
+         getclassifyList:state=>state.index.getclassifyList
      }) 
   },
   methods: {
     ...mapActions({
-        getRecommedList:"index/getRecommedList"
+        getRecommedList:"index/getRecommedList",
+        getClassifyList:"index/getClassifyList"
+       
     }),
     today(){
         console.log(1)
@@ -43,6 +59,11 @@ export default {
     clickToItem(item){
       //到单独的组件里 将item保存到vuex里
       this.$store.commit('index/saveItem',item);
+      this.$store.dispatch('index/getClassifyList',{
+          pageIndex: 1,
+          cid: item.cid,
+          sortType: 1
+      }); 
     }
   },
   
@@ -50,8 +71,12 @@ export default {
    
   },
   onShow(){
-   this.getRecommedList();
-  
+    this.getRecommedList();
+    this.getClassifyList({
+          pageIndex: 1,
+          cid: 1,
+          sortType: 1
+    });
   }
 }
 </script>
@@ -84,6 +109,42 @@ export default {
             border-bottom: 2px solid #94E2D6;
         }
      }
+ }
+ .menu{
+    width:100%;
+    height:40px;
+    background:#fff;
+    margin-top:10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size:14px;
+    section{   
+        position:relative;   
+        .top{
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #FC5D7B;
+            position:absolute;
+            top:4px;
+            left:30px;
+        }
+        .bottom{
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #ccc;
+            position:absolute;
+            top:14px;
+            left:30px;
+        }
+
+    }
  }
 }
 </style>
