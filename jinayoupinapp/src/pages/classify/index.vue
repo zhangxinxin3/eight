@@ -1,0 +1,150 @@
+<template>
+  <div class="wrap">
+    <div class="recommendList">
+        <scroll-view class='scroll-view-list' scroll-x="true">
+            <ul>
+                <li class="active" @click="today">今日推荐</li>
+                <li v-for="(item,index) in recommedList" :key="index" @click="clickToItem(item)">
+                   {{item.cname}}
+                </li>
+            </ul>
+        </scroll-view>
+    </div>
+    <classify :data="saveItemList"></classify>
+    <div class="menu">
+        <section>综合</section>
+        <section>最新</section>
+        <section>
+            价格
+            <span class="top"></span>
+            <span class="bottom"></span>
+        </section>
+    </div>
+    <classifyList :data="getclassifyList"></classifyList>
+  </div>
+ 
+</template>
+
+<script>
+
+import classify from "@/components/classify"
+import classifyList from "@/components/classifyList"
+import { mapState, mapActions } from "vuex";
+
+
+export default {
+  data () {
+  },
+  components: {
+    classify,
+    classifyList
+  },
+  computed: {
+     ...mapState({
+         recommedList:state=>state.index.recommedList,
+         saveItemList:state=>state.index.saveItemList,
+         cid:state=>state.index.cid,
+         getclassifyList:state=>state.index.getclassifyList
+     }) 
+  },
+  methods: {
+    ...mapActions({
+        getRecommedList:"index/getRecommedList",
+        getClassifyList:"index/getClassifyList"
+       
+    }),
+    today(){
+        console.log(1)
+    },
+    clickToItem(item){
+      //到单独的组件里 将item保存到vuex里
+      this.$store.commit('index/saveItem',item);
+      this.$store.dispatch('index/getClassifyList',{
+          pageIndex: 1,
+          cid: item.cid,
+          sortType: 1
+      }); 
+    }
+  },
+  
+  created () {
+   
+  },
+  onShow(){
+    this.getRecommedList();
+    this.getClassifyList({
+          pageIndex: 1,
+          cid: 1,
+          sortType: 1
+    });
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.wrap{
+ width:100%;
+ height:100%;
+ background:#eee;
+ .recommendList{
+     width:100%;
+     .scroll-view-list{
+         width:201%;
+     }
+     ul{
+        background: #fff;
+        width:201%;
+        height:40px;
+        display: flex;
+        align-items: center;
+        li{
+            margin:0px 6px;
+            display: inline;
+            font-size: 16px;
+            line-height:40px;
+            text-align: center;
+        }
+        .active{
+            color:#94E2D6;
+            border-bottom: 2px solid #94E2D6;
+        }
+     }
+ }
+ .menu{
+    width:100%;
+    height:40px;
+    background:#fff;
+    margin-top:10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size:14px;
+    section{   
+        position:relative;   
+        .top{
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #FC5D7B;
+            position:absolute;
+            top:4px;
+            left:30px;
+        }
+        .bottom{
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #ccc;
+            position:absolute;
+            top:14px;
+            left:30px;
+        }
+
+    }
+ }
+}
+</style>
