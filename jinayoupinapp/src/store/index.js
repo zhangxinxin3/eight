@@ -1,14 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createLogger from "vuex/dist/logger";
+
+// 引入子模块
+import index from './modules/index'
+import mine from './modules/mine';
+
 Vue.use(Vuex);
 
-//引入子模块 挂载modules
-import index from "./modules/index";
- 
 export default new Vuex.Store({
-    modules:{
-        index
+    modules: {
+        index,
+        mine
     },
     state: {
         info: {}  // 用户信息
