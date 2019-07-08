@@ -1,4 +1,6 @@
 <script>
+import store from '@/store/index';
+// import 
 export default {
   created () {
     // 调用API从本地缓存中获取数据
@@ -12,16 +14,16 @@ export default {
 
     let logs
     if (mpvuePlatform === 'my') {
-      logs = mpvue.getStorageSync({key: 'logs'}).data || []
-      logs.unshift(Date.now())
-      mpvue.setStorageSync({
-        key: 'logs',
-        data: logs
-      })
+        logs = mpvue.getStorageSync({key: 'logs'}).data || []
+        logs.unshift(Date.now())
+        mpvue.setStorageSync({
+            key: 'logs',
+            data: logs
+        })
     } else {
-      logs = mpvue.getStorageSync('logs') || []
-      logs.unshift(Date.now())
-      mpvue.setStorageSync('logs', logs)
+        logs = mpvue.getStorageSync('logs') || []
+        logs.unshift(Date.now())
+        mpvue.setStorageSync('logs', logs)
     }
   },
   log () {
@@ -31,6 +33,10 @@ export default {
 </script>
 
 <style>
+page{
+    width: 100%;
+    height: 100%;
+}
 .container {
   height: 100%;
   display: flex;
