@@ -90,8 +90,8 @@ export default {
         display: flex;
         align-items: center;
         h2{
-            font-size: 19px;
-            margin-right: 7px;
+           font-size: 20px;
+           margin-right: 7px;
         }
         span::before{
             content:"";

@@ -1,4 +1,4 @@
-import {swiperImg,getRecommed} from '@/api/home';
+import {swiperImg,getRecommed,scrollTo} from '@/api/home';
 // 原始数据
 const state = {
     swiperList:[],//swiper
@@ -6,6 +6,8 @@ const state = {
     sixProductList:[],//列表数据
     adOneList:[],//列表大图
     recommendList:[],//scroll横向
+    scrollToList:[],//scroll加载的数据
+    pageIndex:1
 }
 // 同步改变, 改变数据的唯一途径
 const mutations = {
@@ -25,10 +27,14 @@ const mutations = {
     adOne(state,payload){
         state.adOneList = payload;
     },
-    //scroll横向数据同步
+    //今日推荐scroll横向数据同步
     getRecommed(state,payload){
         state.recommendList = payload;
-        console.log(state.recommendList)
+    },
+    //为你精选scrollTo的同步
+    scrollTo(state,payload){
+        state.scrollToList = payload;
+        console.log(state.scrollToList)
     }
 
 }
@@ -52,14 +58,21 @@ const actions = {
             commit('adOne',adOne);
         })
     },
-    //scroll横向数据
+    //今天推荐scroll横向数据
     getRecommed({commit},payload){
         let data=getRecommed();
         data.then(res=>{
             commit('getRecommed',res.result);
-            // console.log(res.result)
         })
-    }
+    },
+    //为你精选scrollTo的数据
+    scrollTo({commit,state},payload){
+        let data=scrollTo(state.pageIndex);
+        data.then(res=>{
+            // console.log(res.result)
+            commit('scrollTo',res.result);
+        })
+    },
 }
 // 派生数据
 const getters = {
