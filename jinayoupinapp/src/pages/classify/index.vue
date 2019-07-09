@@ -8,6 +8,8 @@
             <ul>
                 <li :class="flag?'active':''" @click="today">今日推荐</li>
                 <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item,index)" :class="index===i?'active':''">
+                <li class="active" @click="today">今日推荐</li>
+                <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item)">
                    {{item.cname}}
                 </li>
             </ul>

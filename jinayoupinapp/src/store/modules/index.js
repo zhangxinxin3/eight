@@ -1,5 +1,5 @@
  import {getClassify} from '@/service/index'
- import {swiperImg,getRecommed,scrollTo} from '@/api/home'
+ import {swiperImg,getRecommed,scrollTo,bannerTo} from '@/api/home'
 
 const state={
     recommedList:'',
@@ -14,22 +14,22 @@ const state={
     scrollToList:[],//scroll加载的数据
     pageIndex:1,
     sortType:1,
+    bannerToList:[],//banner进入详情的数据,
+    DalList:{},//banner详情点击对应数据
 }
+
 //异步改变
 const actions={
-   async getClassifyList({commit,state},payload){
-      
-        await payload.pageIndex&&commit('changePage',payload.pageIndex);
-        await payload.sortType&&commit('changeSortType',payload.sortType);
-        
+    getClassifyList({commit},payload){
         let obj={
             pageIndex:state.pageIndex,
             cid:payload.cid,
             sortType:state.sortType
         };
-        let data = await getClassify(obj);
-           commit('getClassify',data.result)
-       
+        let data = getClassify(obj);
+        data.then(res=>{
+           commit('getClassify',res.result)
+        })
     },
     swiperImg({commit},payload){
         let data=swiperImg();
@@ -56,8 +56,8 @@ const actions={
         })
     },
     //为你精选scrollTo的数据
-  async scrollTo({commit,state},payload){
-        commit('changePage',payload);
+    async scrollTo({commit,state},payload){
+        commit('changePage',payload)
         let data=await scrollTo(payload);
         if(state.pageIndex===1){
             commit('scrollTo',data.result);
@@ -65,7 +65,10 @@ const actions={
             commit('scrollTo',[...state.scrollToList,...data.result]);
         }
     },
-
+    async bannerTo({commit},payload){
+        let data=await bannerTo(payload);
+        commit('bannerTo',data.result)
+    },
 }
 //同步改变
 const mutations = {
@@ -82,6 +85,7 @@ const mutations = {
               state.getclassifyList.push(item)
             });
         }
+        state.getclassifyList = payload;
     },
     //swiper同步
     swiperImg(state,payload){
@@ -107,11 +111,21 @@ const mutations = {
     scrollTo(state,payload){
         state.scrollToList = payload;
     },
+    //数据加载的页数改变赋值
     changePage(state,payload){
         state.pageIndex=payload
     },
     changeSortType(state,payload){
         state.sortType=payload
+    },
+    //点击banner进入详情同步
+    bannerTo(state,payload){
+        state.bannerToList=payload;
+        console.log("bannerToList",state.bannerToList)
+    },
+    //banner详情点击切换同步
+    bannerItem(state,payload){
+        state.DalList=payload;
     }
 }
 

@@ -57,7 +57,40 @@
 				{
 					"id": -1,
 					"name": "今日推荐",
-					"pathName": "pages/classify/main",
+					"pathName": "pages/classify/main"
+                },
+				{
+					"id": 0,
+					"name": "实名认证",
+					"pathName": "pages/mine/authenTication/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "收货地址",
+					"pathName": "pages/mine/shippingAddress/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "优惠券",
+					"pathName": "pages/mine/coupon/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "添加收货地址",
+					"pathName": "pages/mine/addAddress/main",
+					"query": "",
+					"scene": null
+				},{
+					"id":4,
+					"name": "我的",
+					"pathName": "pages/mine/my/main",
+					"query": "",
 					"scene": null
 				}
 			]
