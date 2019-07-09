@@ -15,12 +15,12 @@
     </div>
     <classify :data="saveItemList"></classify>
     <div class="menu">
-        <section>综合</section>
-        <section>最新</section>
-        <section>
+        <section @click="synthesize">综合</section>
+        <section @click="newset">最新</section>
+        <section @click="price">
             价格
-            <span class="top"></span>
-            <span class="bottom"></span>
+            <span :class="first?'activeTop':'top'"></span>
+            <span :class="first?'bottom':'activeBottom'"></span>
         </section>
     </div>
     <classifyList :data="getclassifyList"></classifyList>
@@ -39,7 +39,8 @@ export default {
   data () {
       return {
           i:null,
-          flag:true
+          flag:true,
+          first:true
       }
   },
   components: {
@@ -51,12 +52,12 @@ export default {
          recommendList:state=>state.index.recommendList,
          saveItemList:state=>state.index.saveItemList,
          cid:state=>state.index.cid,
-         getclassifyList:state=>state.index.getclassifyList
+         getclassifyList:state=>state.index.getclassifyList,
+         pageIndex:state=>state.index.pageIndex
      }) 
   },
   methods: {
     ...mapActions({
-        // getRecommedList:"index/getRecommed",
         getClassifyList:"index/getClassifyList"
        
     }),
@@ -72,21 +73,59 @@ export default {
         this.flag = false;
       //到单独的组件里 将item保存到vuex里
       this.$store.commit('index/saveItem',item);
-      this.$store.dispatch('index/getClassifyList',{
+      this.getClassifyList({
           pageIndex: 1,
           cid: item.cid,
           sortType: 1
-      }); 
+      })
     },
     upper(){
       console.log("上拉")
     },
     lower(){
-        console.log('下拉')
-    //   console.log("下拉",++this.pageIndex);
-    //   this.scrollTo(++this.pageIndex)
+    //   console.log('下拉',++this.pageIndex)
+      this.getClassifyList({
+          pageIndex: ++this.pageIndex,
+          cid:this.cid,
+       })
     },
+    //综合
+    synthesize(){
+     this.getClassifyList({
+          pageIndex: 1,
+          cid: this.cid,
+          sortType: 1
+      })
+    },
+    //最新
+    newset(){
+       this.getClassifyList({
+          pageIndex: 1,
+          cid: this.cid,
+          sortType: 2
+      }) 
     
+    },
+    //价格
+    price(){
+          
+        if(this.first){
+            //升价 3
+            this.getClassifyList({
+                pageIndex: 1,
+                cid: this.cid,
+                sortType: 4
+            }); 
+        }else{
+            //降价4
+            this.getClassifyList({
+                pageIndex: 1,
+                cid: this.cid,
+                sortType: 3
+            })
+        }
+        this.first = !this.first;
+    },  
   },
   
   created () {
@@ -151,6 +190,17 @@ export default {
             height: 0;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
+            border-bottom: 5px solid #ccc;
+            position:absolute;
+            top:4px;
+            left:30px;
+        }
+        .activeTop{
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
             border-bottom: 5px solid #FC5D7B;
             position:absolute;
             top:4px;
@@ -166,6 +216,18 @@ export default {
             position:absolute;
             top:14px;
             left:30px;
+        }
+        .activeBottom{
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #FC5D7B;
+            position:absolute;
+            top:14px;
+            left:30px;
+
         }
 
     }

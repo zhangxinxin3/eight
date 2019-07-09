@@ -4,7 +4,8 @@
     "pages/classify/main",
     "pages/mine/coupon/main",
     "pages/mine/card/main",
-    "pages/mine/my/main"
+    "pages/mine/my/main",
+    "pages/shopDetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

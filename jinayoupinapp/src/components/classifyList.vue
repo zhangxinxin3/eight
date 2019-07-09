@@ -1,6 +1,6 @@
 <template>
      <div class="classify-list">
-      <section v-for="(item,index) in data" :key="index">
+      <section v-for="(item,index) in data" :key="index" @click="shopDetail(item)">
           <img :src="item.mainImgUrl" alt="">
           <h3 class="describe">{{item.title}}</h3>
           <div class="shui">包税</div>
@@ -15,8 +15,17 @@
 </template>
 
 <script>
+import {mapActions, mapState} from "vuex";
 export default {
    props: ['data'],
+   methods:{
+       shopDetail(item){
+         this.$store.dispatch("shopDetail/shopItem",item.pid);
+         wx.navigateTo({
+             url:"/pages/shopDetail/main"
+         })
+       }
+   }
 }
 </script>
 

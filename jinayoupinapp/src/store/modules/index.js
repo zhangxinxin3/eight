@@ -12,21 +12,24 @@ const state={
     adOneList:[],//列表大图
     recommendList:[],//scroll横向
     scrollToList:[],//scroll加载的数据
-    pageIndex:1
+    pageIndex:1,
+    sortType:1,
 }
 //异步改变
 const actions={
-    getClassifyList({commit},payload){
-        // console.log('payload',payload)
+   async getClassifyList({commit,state},payload){
+      
+        await payload.pageIndex&&commit('changePage',payload.pageIndex);
+        await payload.sortType&&commit('changeSortType',payload.sortType);
+        
         let obj={
-            pageIndex:payload.pageIndex,
+            pageIndex:state.pageIndex,
             cid:payload.cid,
-            sortType:payload.sortType
+            sortType:state.sortType
         };
-        let data = getClassify(obj);
-        data.then(res=>{
-           commit('getClassify',res.result)
-        })
+        let data = await getClassify(obj);
+           commit('getClassify',data.result)
+       
     },
     swiperImg({commit},payload){
         let data=swiperImg();
@@ -54,8 +57,7 @@ const actions={
     },
     //为你精选scrollTo的数据
   async scrollTo({commit,state},payload){
-        commit('changePage',payload)
-        
+        commit('changePage',payload);
         let data=await scrollTo(payload);
         if(state.pageIndex===1){
             commit('scrollTo',data.result);
@@ -72,12 +74,14 @@ const mutations = {
        state.cid = payload.cid;
        state.saveItemList = payload.childs;
     },
-    changeCid(state,payload){
-      state.cid = payload;
-    },
     getClassify(state,payload){
-        // console.log(payload)
-        state.getclassifyList = payload;
+        if(state.pageIndex===1){
+            state.getclassifyList = payload;
+        }else{
+            payload.map((item)=>{
+              state.getclassifyList.push(item)
+            });
+        }
     },
     //swiper同步
     swiperImg(state,payload){
@@ -102,10 +106,12 @@ const mutations = {
     //为你精选scrollTo的同步
     scrollTo(state,payload){
         state.scrollToList = payload;
-        // console.log("scrollToList",state.scrollToList)
     },
     changePage(state,payload){
         state.pageIndex=payload
+    },
+    changeSortType(state,payload){
+        state.sortType=payload
     }
 }
 
