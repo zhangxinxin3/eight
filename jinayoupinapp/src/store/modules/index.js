@@ -1,5 +1,5 @@
- import {getRecommed,getClassify} from '@/service/index'
- import {swiperImg,scrollTo,searchTo} from '@/api/home'
+ import {getClassify} from '@/service/index'
+ import {swiperImg,getRecommed,scrollTo,bannerTo} from '@/api/home'
 
 const state={
     saveItemList:[],
@@ -41,13 +41,15 @@ const state={
         typesSort:'asc',
         typesKey:0, //排序
         typesPage:1    
-    }
+    },
+    //今日推荐
+    pageIndex:1,//页面数据加载页数
+    bannerToList:[],//banner进入详情的数据,
+    DalList:{},//banner详情点击对应数据
 }
 //异步改变
 const actions={
-    //今日推荐
     getClassifyList({commit},payload){
-        console.log('payload',payload)
         let obj={
             pageIndex:payload.pageIndex,
             cid:payload.cid,
@@ -57,7 +59,8 @@ const actions={
         data.then(res=>{
            commit('getClassify',res.result)
         })
-    },swiperImg({commit},payload){
+    },
+    swiperImg({commit},payload){
         let data=swiperImg();
         data.then(res=>{
             //swiper
@@ -82,9 +85,8 @@ const actions={
         })
     },
     //为你精选scrollTo的数据
-  async scrollTo({commit,state},payload){
+    async scrollTo({commit,state},payload){
         commit('changePage',payload)
-        
         let data=await scrollTo(payload);
         if(state.pageIndex===1){
             commit('scrollTo',data.result);
@@ -107,7 +109,11 @@ const actions={
                 payload
             })
         }
-    }
+    },
+    async bannerTo({commit},payload){
+        let data=await bannerTo(payload);
+        commit('bannerTo',data.result)
+    },
 }
 //同步改变
 const mutations = {
@@ -117,7 +123,6 @@ const mutations = {
        state.saveItemList = payload.childs;
     },
     getClassify(state,payload){
-        console.log(payload)
         state.getclassifyList = payload;
     },
     //swiper同步
@@ -143,8 +148,8 @@ const mutations = {
     //为你精选scrollTo的同步
     scrollTo(state,payload){
         state.scrollToList = payload;
-        console.log("scrollToList",state.scrollToList)
     },
+    //数据加载的页数改变赋值
     changePage(state,payload){
         state.pageIndex=payload
     },
@@ -160,6 +165,15 @@ const mutations = {
         state.value = payload.queryWord;
         state.typesKey = payload.queryType;
         state.typesSort = payload.querySort;
+    },
+    //点击banner进入详情同步
+    bannerTo(state,payload){
+        state.bannerToList=payload;
+        console.log("bannerToList",state.bannerToList)
+    },
+    //banner详情点击切换同步
+    bannerItem(state,payload){
+        state.DalList=payload;
     }
 }
 

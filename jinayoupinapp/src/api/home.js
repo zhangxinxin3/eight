@@ -15,3 +15,7 @@ export function scrollTo(page){
 export function searchTo(params){
     return request.post('/api/open/search/query/1.0.0',params);
 }
+//banner图进入详情接口
+export function bannerTo(siid){
+    return request.post('/api/open/sepcial/query/1.0.0?siid='+siid);
+}
