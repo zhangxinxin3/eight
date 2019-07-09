@@ -5,8 +5,11 @@
     "pages/bannerDal/main",
     "pages/mine/my/main",
     "pages/mine/coupon/main",
-    "pages/mine/card/main"
-    
+    "pages/mine/card/main",
+    "pages/mine/service/main", 
+    "pages/mine/authenTication/main",
+    "pages/mine/shippingAddress/main",
+    "pages/mine/addAddress/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
