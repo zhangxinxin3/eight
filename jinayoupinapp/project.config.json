@@ -1,25 +1,16 @@
 {
-	"description": "项目配置文件。",
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
 	"setting": {
 		"urlCheck": false,
-<<<<<<< HEAD
 		"es6": true,
-		"enhance": true,
-=======
-<<<<<<< HEAD
-		"es6": false,
->>>>>>> e15a0f312b28c37f1871ccf0999776d66a20159a
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
-<<<<<<< HEAD
-		"nodeModules": false,
 		"autoAudits": false,
-		"uglifyFileName": true,
-=======
-		"autoAudits": false,
->>>>>>> e15a0f312b28c37f1871ccf0999776d66a20159a
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -28,22 +19,17 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		}
-<<<<<<< HEAD
-=======
-=======
-		"es6": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false,
-		"checkInvalidKey": true
->>>>>>> 9c85c0f16f40e396eacc218db7925a3912d80a8d
->>>>>>> e15a0f312b28c37f1871ccf0999776d66a20159a
 	},
-	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
+	"libVersion": "2.7.3",
 	"appid": "wx329552c293e04827",
 	"projectname": "jinayoupinapp",
+	"miniprogramRoot": "dist/wx/",
+	"cloudfunctionTemplateRoot": "",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"scripts": {},
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -60,45 +46,16 @@
 			"list": []
 		},
 		"game": {
-			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-<<<<<<< HEAD
-			"current": 2,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "实名认证",
-					"pathName": "pages/mine/authenTication/main",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "收货地址",
-					"pathName": "pages/mine/shippingAddress/main",
-=======
-			"current": 1,
-			"list": [
-				{
-					"id": -1,
-					"name": "优惠券",
-					"pathName": "pages/mine/coupon/main",
->>>>>>> 71744290b65d3a9102158eda11b83b4df3543f2b
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-<<<<<<< HEAD
-					"name": "添加收货地址",
+					"name": "我的那一页",
 					"pathName": "pages/mine/addAddress/main",
 					"query": "",
-=======
-					"name": "我的",
-					"pathName": "pages/mine/my/main",
->>>>>>> 71744290b65d3a9102158eda11b83b4df3543f2b
 					"scene": null
 				}
 			]

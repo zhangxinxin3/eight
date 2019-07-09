@@ -10,11 +10,11 @@
         <i class="iconfont icon-youjiantou"></i>
       </p>
       <p>
-        <input type="text" placeholder="所在地区" @click="saveAddress" />
+        <input type="text" placeholder="所在地区" @change="saveDetailAddress" />
         <i class="iconfont icon-youjiantou"></i>
       </p>
       <p>
-        <textarea name id placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元 室等" @change="saveDetailAddress"></textarea>
+        <input name id placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元 室等" @change="saveAddress" />
       </p>
     </div>
     <div class="tag">
@@ -44,15 +44,25 @@ export default {
     ...mapState({
       tagList: state => state.mine.tagList,
       currentTab: state => state.mine.currentTab,
-      spn: state => state.mine.addRessObj.spn,
-      name: state => state.mine.addRessObj.name,
-      tel: state => state.mine.addRessObj.tel,
-      detailAddress: state => state.mine.addRessObj.detailAddress,
-      status: state => state.mine.addRessObj.status,
-      addRessObj: state => state.mine.addRessObj
+      address: state => state.mine.addRessObj.address,
+      addressDetail: state => state.mine.addRessObj.addressDetail,
+      areaId: state => state.mine.addRessObj.areaId,
+      areaName: state => state.mine.addRessObj.areaName,
+      cityId: state => state.mine.addRessObj.cityId,
+      cityName: state => state.mine.addRessObj.cityName,
+      consignee: state => state.mine.addRessObj.consignee,
+      consigneePhone: state => state.mine.addRessObj.consigneePhone,
+      provinceId: state => state.mine.addRessObj.provinceId,
+      provinceName: state => state.mine.addRessObj.provinceName,
+      state: state => state.mine.addRessObj.address,
+      state: state => state.mine.addRessObj.address,
+      uid: state => state.mine.addRessObj.uid
     })
   },
   methods: {
+    ...mapActions({
+      Cargoaddress: "mine/Cargoaddress"
+    }),
     //更改样式以及获取标签名
     changeActive(e) {
       this.$store.commit("mine/changeActive", {
@@ -62,41 +72,57 @@ export default {
     },
     //获取收货人名字
     saveName(e) {
-      console.log(e.mp.detail.value);
       this.$store.commit("mine/saveObjName", {
-        name: e.mp.detail.value
+        consignee: e.mp.detail.value
       });
     },
     //获取手机号
     saveTel(e) {
       this.$store.commit("mine/saveObjTel", {
-        tel: e.mp.detail.value
+        consigneePhone: e.mp.detail.value
       });
-    },
-    //获取省、市、区
-    saveAddress() {
-      console.log(1);
     },
     //获取详细地址
     saveDetailAddress(e) {
-      this.$store.commit("mine/saveObjdetailAddress", {
-        detailAddress: e.detail.value
+      this.$store.commit("mine/saveObjDetailAddress", {
+        addressDetail: e.mp.detail.value
+      });
+    },
+    //获取地址
+    saveAddress(e) {
+      console.log(e);
+      this.$store.commit("mine/saveObjAddress", {
+        address: e.mp.detail.value
       });
     },
     //改变switch状态
     switchChange(e) {
       this.$store.commit("mine/saveObjstatus", {
-        status: e.mp.detail.value
+        state: e.mp.detail.value
       });
     },
     //保存并返回
     saveObj() {
-      wx.setStorage({
-        key: "key",
-        data: this.addRessObj,
-        success: res => {
-          console.log(res);
-        }
+      // wx.setStorage({
+      //   key: "key",
+      //   data: this.addRessObj,
+      // });
+      this.Cargoaddress({
+        address: this.address,
+        addressDetail: this.addressDetail,
+        areaId: this.areaId,
+        areaName: this.areaName,
+        cityId: this.cityId,
+        cityName: this.cityName,
+        consignee: this.consignee,
+        consigneePhone: this.consigneePhone,
+        provinceId: this.provinceId,
+        provinceName: this.provinceName,
+        state: this.state,
+        uid: this.uid
+      });
+      wx.navigateBack({
+        delta: 1
       });
     }
   }
