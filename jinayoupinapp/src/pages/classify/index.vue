@@ -4,7 +4,7 @@
         <scroll-view class='scroll-view-list' scroll-x="true">
             <ul>
                 <li class="active" @click="today">今日推荐</li>
-                <li v-for="(item,index) in recommedList" :key="index" @click="clickToItem(item)">
+                <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item)">
                    {{item.cname}}
                 </li>
             </ul>
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
      ...mapState({
-         recommedList:state=>state.index.recommedList,
+         recommendList:state=>state.index.recommendList,
          saveItemList:state=>state.index.saveItemList,
          cid:state=>state.index.cid,
          getclassifyList:state=>state.index.getclassifyList
@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     ...mapActions({
-        getRecommedList:"index/getRecommedList",
         getClassifyList:"index/getClassifyList"
        
     }),
@@ -70,12 +69,13 @@ export default {
   created () {
    
   },
-  onShow(){
-    this.getRecommedList();
+  onLoad(){
+    let arr=JSON.parse(this.$root.$mp.query.arr)
+    this.$store.commit('index/saveItem',arr[1]);
     this.getClassifyList({
-          pageIndex: 1,
-          cid: 1,
-          sortType: 1
+        pageIndex: arr[0].pageIndex,
+        cid: arr[0].cid,
+        sortType: arr[0].sortType
     });
   }
 }

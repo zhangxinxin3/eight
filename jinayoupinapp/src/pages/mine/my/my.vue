@@ -14,7 +14,7 @@
             <div class="card">
                 <p :key='1' @click="cards(1)">我的订单</p>
                 <div class="cardContent">
-                    <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key!==0">
+                    <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key !==0 ">
                         <image :src="item.img" alt="" />
                         <p>{{item.title}}</p>
                     </div>
