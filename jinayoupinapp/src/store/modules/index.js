@@ -1,8 +1,7 @@
  import {getRecommed,getClassify} from '@/service/index'
- import {swiperImg,getRecommed,scrollTo} from '@/api/home'
+ import {swiperImg,scrollTo,searchTo} from '@/api/home'
 
 const state={
-    recommedList:'',
     saveItemList:[],
     cid:'',
     getclassifyList:[],
@@ -12,17 +11,41 @@ const state={
     adOneList:[],//列表大图
     recommendList:[],//scroll横向
     scrollToList:[],//scroll加载的数据
-    pageIndex:1
+    pageIndex:1,
+    searchArr:[],//搜索列表
+    historyArr:[], //历史搜索
+    types:[{
+        title:"综合",
+        key:0,
+        sort:'asc'
+    },{
+        title:"最新",
+        key:1,
+        sort:'asc'
+    },{
+        title:"价格",
+        key:2,
+        sort:'desc',
+        child:[{
+            title:"价格从高到低",
+            key:2,
+            sort:'desc'
+        },{
+            title:"价格从低到高",
+            key:2,
+            sort:'asc'
+        }]
+    }],
+    search:{
+        value:'',
+        typesSort:'asc',
+        typesKey:0, //排序
+        typesPage:1    
+    }
 }
 //异步改变
 const actions={
     //今日推荐
-    getRecommedList({commit},payload){
-        let data = getRecommed();
-        data.then(res=>{
-           commit('getRecommed',res.result)
-        })
-    },
     getClassifyList({commit},payload){
         console.log('payload',payload)
         let obj={
@@ -69,13 +92,25 @@ const actions={
             commit('scrollTo',[...state.scrollToList,...data.result]);
         }
     },
-
+    //搜索
+    async search(store,payload){
+        let data = await searchTo(payload);
+        console.log('搜索',data)
+        if(data.res_code === 1){
+            store.commit('upSearch',{
+                data:data.result,
+                payload
+            })
+        }else{
+            store.commit('upSearch',{
+                data:[],
+                payload
+            })
+        }
+    }
 }
 //同步改变
 const mutations = {
-    getRecommed(state,payload){
-        state.recommedList=payload;
-    },
     //到单独的组件里 将item保存到vuex里
     saveItem(state,payload){
        state.cid = payload.cid;
@@ -112,6 +147,19 @@ const mutations = {
     },
     changePage(state,payload){
         state.pageIndex=payload
+    },
+    //搜索列表
+    upSearch(state,payload){
+        state.searchArr = payload.data;
+        let data = state.historyArr.filter(item=>item===payload.queryWord);
+        if(data.length){
+            return;
+        }else{
+            state.historyArr.push(payload.value);
+        }
+        state.value = payload.queryWord;
+        state.typesKey = payload.queryType;
+        state.typesSort = payload.querySort;
     }
 }
 

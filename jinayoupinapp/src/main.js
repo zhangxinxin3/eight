@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App'
-import store from "./store/index"
 
 //引入store
 import store from "@/store/index"

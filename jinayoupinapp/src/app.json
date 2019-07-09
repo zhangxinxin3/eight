@@ -1,11 +1,11 @@
 {
   "pages": [
-    "pages/classify/main",
+    "pages/search/main",
     "pages/index/main",
-    "pages/my/main",
+    "pages/classify/main",
+    "pages/mine/my/main",
     "pages/mine/coupon/main",
-    "pages/mine/card/main",
-    "pages/mine/my/main"
+    "pages/mine/card/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

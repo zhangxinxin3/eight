@@ -1,4 +1,4 @@
-import { getUser, products, coupons } from '@/api/mine'
+import { getUser, products, coupons, nums } from '@/api/mine'
 
 const state = {
     card:[{
@@ -32,8 +32,7 @@ const state = {
     }],
     state:0,
     couponList:[],
-    user:{},
-    Payment:0 //待付款
+    user:{}
 }
 
 const mutations = {
@@ -51,11 +50,22 @@ const mutations = {
     },
     getCoupons(state,payload){
         state.couponList = payload;
+    },
+    upNum(state,payload){
+        state.card.map(item=>{
+            if(item.key===1){
+                item.Number = payload.pendingDeliverNumber;
+            }else if(item.key===2){
+                item.Number = payload.pendingPaymentNumber;
+            }else if(item.key===3){
+                item.Number = payload.pendingReceivingNumber;
+            }
+        })
     }
 }
 
 const actions = {
-    async getUser(store,payload){
+    async getUser(store){
         let data = await getUser();
         if(data.res_code===1){
             store.commit('getUsers',data.result)
@@ -65,10 +75,12 @@ const actions = {
         let data = await products({
             pageIndex:store.state.page,
             orderStatus:store.state.key
-        });
-        console.log(data)
+        });    
+        
+        console.log('订单',data)
         if(data.res_code===1){
             store.commit('getProducts',data.result)
+            // return 
         }else{
             store.commit('getProducts',[])
         }
@@ -83,6 +95,11 @@ const actions = {
         }else{
             store.commit('getCoupons',[])
         }
+    },
+    async getNum(store){
+        let data = await nums();
+        console.log('数量',data)
+        store.commit('upNum',data.result)
     }
 }
 

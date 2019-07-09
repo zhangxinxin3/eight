@@ -13,3 +13,6 @@ export function coupons(params){
     console.log(params)
     return request.post('/api/open/user/coupon/userCouponInfoList/1.0.0?state='+params.state)
 }
+export function nums(){
+    return request.post('/api/open/order/tips/1.0.0')
+}
