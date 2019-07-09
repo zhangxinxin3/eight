@@ -25,22 +25,22 @@
                 <div @click="coupon">
                     <image src="/static/images/yhj.png" alt="" />
                     <p>我的优惠券</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
                 <div @click="address">
                     <image src="/static/images/dz.png" alt="" />
-                    <p>收货地址</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <p @click="jumpAddress">收货地址</p>
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
                 <div @click="service">
                     <image src="/static/images/kf.png" alt="" />
-                    <p>联系客服</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <p @click="service">联系客服</p>
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
                 <div @click="authentication">
                     <image src="/static/images/sm.png" alt="" />
-                    <p>实名认证</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <p @click="authentication">实名认证</p>
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
             </div> 
         </div>
@@ -74,25 +74,25 @@ export default {
             wx.redirectTo({
                 url:"/pages/mine/coupon/main"
             })
-        }
+        },
         //添加地址
-        // address(){
-        //     wx.redirectTo({
-        //         url:"/pages/mine/coupon/main"
-        //     })
-        // },
-        // //客服
-        // service(){
-        //     wx.redirectTo({
-        //         url:"/pages/mine/coupon/main"
-        //     })
-        // },
-        // //实名认证
-        // authentication(){
-        //     wx.redirectTo({
-        //         url:"/pages/mine/coupon/main"
-        //     })
-        // }
+        jumpAddress(){
+            wx.redirectTo({
+                url:"/pages/mine/shippingAddress/main"
+            })
+        },
+        //客服
+        service(){
+            wx.redirectTo({
+                url:"/pages/mine/service/main"
+            })
+        },
+        //实名认证
+        authentication(){
+            wx.redirectTo({
+                url:"/pages/mine/authenTication/main"
+            })
+        }
     },
     computed:{
         ...mapState({

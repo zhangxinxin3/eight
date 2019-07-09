@@ -25,12 +25,14 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.7.3",
-	"appid": "wx3375420e2c184d34",
+	"appid": "wx329552c293e04827",
 	"projectname": "jinayoupinapp",
+	"miniprogramRoot": "dist/wx/",
+	"cloudfunctionTemplateRoot": "",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
-	"isGameTourist": false,
+	"scripts": {},
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -43,12 +45,17 @@
 			"list": []
 		},
 		"game": {
-			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 0,
 			"list": [
+				{
+					"id": 0,
+					"name": "我的那一页",
+					"pathName": "pages/mine/addAddress/main",
+                    "query": ""
+                },
 				{
 					"id": 0,
 					"name": "实名认证",
