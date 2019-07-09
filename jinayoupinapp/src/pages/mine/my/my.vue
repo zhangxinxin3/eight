@@ -12,9 +12,10 @@
         </div>
         <div class="main">
             <div class="card">
-                <p :key='1' @click="cards(1)">我的订单</p>
+                <p :key='1' @click="cards(0)">我的订单</p>
                 <div class="cardContent">
-                    <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key !==0 ">
+                    <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key!==0">
+                        <text v-if="item.Number!==0">{{item.Number}}</text>
                         <image :src="item.img" alt="" />
                         <p>{{item.title}}</p>
                     </div>
@@ -24,22 +25,22 @@
                 <div @click="coupon">
                     <image src="/static/images/yhj.png" alt="" />
                     <p>我的优惠券</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
                 <div @click="address">
                     <image src="/static/images/dz.png" alt="" />
-                    <p>收货地址</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <p @click="jumpAddress">收货地址</p>
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
                 <div @click="service">
                     <image src="/static/images/kf.png" alt="" />
-                    <p>联系客服</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <p @click="service">联系客服</p>
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
                 <div @click="authentication">
                     <image src="/static/images/sm.png" alt="" />
-                    <p>实名认证</p>
-                    <image src="/static/images/jt.png" alt="" />
+                    <p @click="authentication">实名认证</p>
+                    <i class="iconfont icon-youjiantou"></i>
                 </div>
             </div> 
         </div>
@@ -49,22 +50,14 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
-    data(){
-        return {
-            payment:0,//付款
-            shipped:0,//发货
-            received:0 //收货
-        }
-    },
     onShow(){
         this.getUser();
-        this.changeKey(0);
-        this.products();
+        this.getNum();
     },
     methods:{
         ...mapActions({
             getUser:"mine/getUser",
-            products:'mine/products'
+            getNum:'mine/getNum'
         }),
         ...mapMutations({
             changeKey:"mine/changeKey"
@@ -81,32 +74,35 @@ export default {
             wx.redirectTo({
                 url:"/pages/mine/coupon/main"
             })
-        }
+        },
         //添加地址
-        // address(){
-        //     wx.redirectTo({
-        //         url:"/pages/mine/coupon/main"
-        //     })
-        // },
-        // //客服
-        // service(){
-        //     wx.redirectTo({
-        //         url:"/pages/mine/coupon/main"
-        //     })
-        // },
-        // //实名认证
-        // authentication(){
-        //     wx.redirectTo({
-        //         url:"/pages/mine/coupon/main"
-        //     })
-        // }
+        jumpAddress(){
+            wx.redirectTo({
+                url:"/pages/mine/shippingAddress/main"
+            })
+        },
+        //客服
+        service(){
+            wx.redirectTo({
+                url:"/pages/mine/service/main"
+            })
+        },
+        //实名认证
+        authentication(){
+            wx.redirectTo({
+                url:"/pages/mine/authenTication/main"
+            })
+        }
     },
     computed:{
         ...mapState({
             card:state=>state.mine.card,
             key:state=>state.mine.key,
             user:state=>state.mine.user,
-            productsList:state=>state.mine.productsList
+            productsList:state=>state.mine.productsList,
+            pendingDeliverNumber:state=>state.mine.pendingDeliverNumber,
+            pendingPaymentNumber:state=>state.mine.pendingPaymentNumber,
+            pendingReceivingNumber:state=>state.mine.pendingReceivingNumber
         })
     }
 }
@@ -200,6 +196,17 @@ export default {
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-around;
+                position: relative;
+                text:nth-child(1){
+                    background:orange;
+                    color:#fff;
+                    border-radius: 100%;
+                    padding:0 10rpx;
+                    box-sizing: border-box;
+                    position: absolute;
+                    top:-10rpx;
+                    right:60rpx;
+                }
                 image{
                     width:80rpx;
                     height:80rpx;
