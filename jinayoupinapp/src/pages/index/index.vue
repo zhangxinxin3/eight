@@ -5,11 +5,19 @@
     <div class="searchBox">
        <icon type="search" size="18"/>
        <input type="text" placeholder="搜索">
+<<<<<<< HEAD
     </div> 
     <ul class="recommendList">
       <li class="active">今日推荐</li>
       <li v-for="(item,index) in recommendList" :key="index">
           <span @click="clickCid(item)">{{item.cname}}</span>
+=======
+    </div>
+    <ul class="recommendList">
+      <li class="active">今日推荐</li>
+      <li v-for="(item,index) in recommendList" :key="index">
+          {{item.cname}}
+>>>>>>> np
       </li>
     </ul>
     <swiper class="swiperBox"
@@ -17,7 +25,11 @@
       :indicator-dots="true"
       :autoplay="true" :interval="5000" :duration="1000">
       <div class="itemDiv" v-for="(item,index) in swiperList" :key="index">
+<<<<<<< HEAD
         <swiper-item @click="clickSwiperId(item.contentValue)">
+=======
+        <swiper-item>
+>>>>>>> np
           <image :src="item.imgUrl" class="slide-image" height="150"/>
         </swiper-item>
       </div>  
@@ -67,6 +79,7 @@ export default {
    ...mapActions({
       swiperImg: 'index/swiperImg',
       getRecommed:"index/getRecommed",
+<<<<<<< HEAD
       scrollTo:"index/scrollTo",
       bannerTo:"index/bannerTo"
     }),
@@ -93,6 +106,18 @@ export default {
       wx.navigateTo({
       url: '/pages/classify/main?arr='+arrs
       })
+=======
+      scrollTo:"index/scrollTo"
+    }),
+    upper(){
+      console.log("上拉")
+    },
+    lower(){
+     
+      
+      console.log("下拉",++this.pageIndex);
+      this.scrollTo(++this.pageIndex)
+>>>>>>> np
     }
   },
  computed: {
