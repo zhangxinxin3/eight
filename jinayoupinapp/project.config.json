@@ -6,11 +6,21 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+<<<<<<< HEAD
+=======
+		"enhance": true,
+>>>>>>> c67755741dc5824433e1429c2abb37d406229632
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
+<<<<<<< HEAD
 		"autoAudits": false,
+=======
+		"nodeModules": false,
+		"autoAudits": false,
+		"uglifyFileName": true,
+>>>>>>> c67755741dc5824433e1429c2abb37d406229632
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -49,6 +59,7 @@
 			"list": []
 		},
 		"miniprogram": {
+<<<<<<< HEAD
 			"current": 0,
 			"list": [
 				{
@@ -56,6 +67,42 @@
 					"name": "我的那一页",
 					"pathName": "pages/mine/addAddress/main",
 					"query": "",
+=======
+			"current": 2,
+			"list": [
+				{
+					"id": 0,
+					"name": "实名认证",
+					"pathName": "pages/mine/authenTication/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "收货地址",
+					"pathName": "pages/mine/shippingAddress/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "优惠券",
+					"pathName": "pages/mine/coupon/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "添加收货地址",
+					"pathName": "pages/mine/addAddress/main",
+					"query": "",
+					"scene": null
+				},{
+					"id":4,
+					"name": "我的",
+					"pathName": "pages/mine/my/main",
+					"query": "",
+>>>>>>> c67755741dc5824433e1429c2abb37d406229632
 					"scene": null
 				}
 			]

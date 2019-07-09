@@ -2,13 +2,14 @@
   "pages": [
     "pages/index/main",
     "pages/classify/main",
+    "pages/bannerDal/main",
     "pages/mine/my/main",
-    "pages/mine/authenTication/main",
-    "pages/mine/shippingAddress/main",
-    "pages/mine/addAddress/main",
     "pages/mine/coupon/main",
     "pages/mine/card/main",
-    "pages/mine/service/main"
+    "pages/mine/service/main", 
+    "pages/mine/authenTication/main",
+    "pages/mine/shippingAddress/main",
+    "pages/mine/addAddress/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

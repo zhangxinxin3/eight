@@ -11,6 +11,7 @@ export function getRecommed(){
 export function scrollTo(page){
     return request.post('/api/open/page/home/products/1.0.0?pageIndex='+page);
 }
+<<<<<<< HEAD
 
 // export function one(){
 //     return request.post('/api/open/init/app/1')
@@ -37,3 +38,9 @@ export function scrollTo(page){
 // export function four(){
 //     return request.post('/api/open/page/home/list/1.0.0')
 // }
+=======
+//banner图进入详情接口
+export function bannerTo(siid){
+    return request.post('/api/open/sepcial/query/1.0.0?siid='+siid);
+}
+>>>>>>> c67755741dc5824433e1429c2abb37d406229632
