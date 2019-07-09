@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="boxBig">
-        <BannerDl :DalList="DalList"></BannerDl>
+        <BannerDl :uiType="DalList.uiType" :DalList="DalList.products"></BannerDl>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@ export default {
   },
   methods:{
    ...mapActions({
- 
+     bannerTo:"index/bannerTo"
     }),
     clickItem(item,index){
       this.i=index;
@@ -61,7 +61,10 @@ export default {
   },
   components:{
     BannerDl
-  }
+  },
+  onShow(){
+      this.$store.commit("index/bannerItem",this.bannerToList.anchors[0])
+  },
 }
 </script>
 
@@ -137,6 +140,7 @@ export default {
   }
   .active{
     color: rgb(254,116,142);
+    border-bottom: 1px solid rgb(254,116,142);
   }
 }
 </style>

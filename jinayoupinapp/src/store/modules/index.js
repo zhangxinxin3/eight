@@ -14,7 +14,7 @@ const state={
     scrollToList:[],//scroll加载的数据
     pageIndex:1,//页面数据加载页数
     bannerToList:[],//banner进入详情的数据,
-    DalList:[],//banner详情点击对应数据
+    DalList:{},//banner详情点击对应数据
 }
 //异步改变
 const actions={
@@ -116,8 +116,7 @@ const mutations = {
     },
     //banner详情点击切换同步
     bannerItem(state,payload){
-        state.DalList=payload.products;
-        console.log(state.DalList)
+        state.DalList=payload;
     }
 }
 

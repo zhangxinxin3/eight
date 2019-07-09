@@ -78,7 +78,7 @@ export default {
     clickSwiperId(siid){
       this.bannerTo(siid);
       wx.navigateTo({
-        url:"/pages/bannerDal/main"
+        url:"/pages/bannerDal/main?siid="+siid
       })
     },
     //click横向滚动的每一项获取cid

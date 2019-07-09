@@ -1,5 +1,5 @@
 <template>
-    <dl>
+    <dl :class="uiType===1?'flexs':'colunm'">
         <div class="dls" v-for="(item,index) in DalList" :key="index">
             <dt>
                 <img :src="item.mainImgUrl" alt="">
@@ -19,12 +19,15 @@
 
 <script>
 export default {
-    props:["DalList"]
+    props:["DalList","uiType"],
+    created(){
+      console.log('uiType',this.uiType)
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-dl{
+.flexs{
   width:100%;
   height: 100%;
   display: flex;
@@ -51,6 +54,13 @@ dl{
     flex:1;
     display: flex;
     flex-direction: column;
+    h3{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      width: 100%;
+    }
     .Pic{
       width: 100%;
       display: flex;
@@ -71,6 +81,61 @@ dl{
         padding: 1px;
       }
     }
-  }
+  } 
 }
+.colunm{
+  width:100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .dls{
+    width: 32%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // margin: 6px 0;
+  }
+  dt{
+    width: 100%;
+    height: 100px;
+    margin-bottom: 5px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  dd{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    h3{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      width: 100%;
+      margin-bottom: 7px;
+    }
+    .Pic{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      b{
+        font-size: 16px;
+        color: rgb(254,116,142);
+      }
+      span{
+        margin-top: 3px;
+      }
+      .color{
+        color: rgb(254,116,142);
+        font-size: 13px;
+        padding: 1px;
+      }
+     }
+    }
+  }
 </style>
