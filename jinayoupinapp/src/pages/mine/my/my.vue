@@ -12,10 +12,16 @@
         </div>
         <div class="main">
             <div class="card">
+<<<<<<< HEAD
                 <p :key='1' @click="cards(0)">我的订单</p>
                 <div class="cardContent">
                     <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key!==0">
                         <text v-if="item.Number!==0">{{item.Number}}</text>
+=======
+                <p :key='1' @click="cards(1)">我的订单</p>
+                <div class="cardContent">
+                    <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key!==0">
+>>>>>>> np
                         <image :src="item.img" alt="" />
                         <p>{{item.title}}</p>
                     </div>
@@ -50,14 +56,32 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
+<<<<<<< HEAD
     onShow(){
         this.getUser();
         this.getNum();
+=======
+    data(){
+        return {
+            payment:0,//付款
+            shipped:0,//发货
+            received:0 //收货
+        }
+    },
+    onShow(){
+        this.getUser();
+        this.changeKey(0);
+        this.products();
+>>>>>>> np
     },
     methods:{
         ...mapActions({
             getUser:"mine/getUser",
+<<<<<<< HEAD
             getNum:'mine/getNum'
+=======
+            products:'mine/products'
+>>>>>>> np
         }),
         ...mapMutations({
             changeKey:"mine/changeKey"
@@ -99,10 +123,14 @@ export default {
             card:state=>state.mine.card,
             key:state=>state.mine.key,
             user:state=>state.mine.user,
+<<<<<<< HEAD
             productsList:state=>state.mine.productsList,
             pendingDeliverNumber:state=>state.mine.pendingDeliverNumber,
             pendingPaymentNumber:state=>state.mine.pendingPaymentNumber,
             pendingReceivingNumber:state=>state.mine.pendingReceivingNumber
+=======
+            productsList:state=>state.mine.productsList
+>>>>>>> np
         })
     }
 }
@@ -196,6 +224,7 @@ export default {
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-around;
+<<<<<<< HEAD
                 position: relative;
                 text:nth-child(1){
                     background:orange;
@@ -207,6 +236,8 @@ export default {
                     top:-10rpx;
                     right:60rpx;
                 }
+=======
+>>>>>>> np
                 image{
                     width:80rpx;
                     height:80rpx;

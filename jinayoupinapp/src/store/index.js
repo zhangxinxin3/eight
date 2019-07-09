@@ -15,5 +15,17 @@ export default new Vuex.Store({
         mine,
         shopDetail
     },
+<<<<<<< HEAD
+=======
+    state: {
+        info: {}  // 用户信息
+    },
+    mutations: {
+        // 更新全局的state
+        updateState(state, payload){
+          state.info = payload;
+        }
+    },
+>>>>>>> np
     plugins:[createLogger()]
 })

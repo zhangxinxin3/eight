@@ -60,7 +60,6 @@ const state = {
     Payment: 0, //待付款
 
 }
-
 const actions = {
     async getUser(store, payload) {
         let data = await getUser();
