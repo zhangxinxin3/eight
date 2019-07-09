@@ -9,7 +9,7 @@
     <ul class="recommendList">
       <li class="active">今日推荐</li>
       <li v-for="(item,index) in recommendList" :key="index">
-          {{item.cname}}
+          <span @click="clickCid(item)">{{item.cname}}</span>
       </li>
     </ul>
     <swiper class="swiperBox"
@@ -73,11 +73,22 @@ export default {
       console.log("上拉")
     },
     lower(){
-     
-      
       console.log("下拉",++this.pageIndex);
       this.scrollTo(++this.pageIndex)
+    },
+    clickCid(item){
+      let objs={
+        pageIndex:1,
+        cid:item.cid,
+        sortType:1
+      }
+      let arr=[objs,item]
+      let arrs=JSON.stringify(arr);
+      wx.navigateTo({
+      url: '/pages/classify/main?arr='+arrs
+      })
     }
+
   },
  computed: {
    ...mapState({

@@ -1,10 +1,13 @@
 <template>
-  <div class="wrap">
+  <scroll-view class="wrap" scroll-y="true"
+   @scrolltoupper="upper" 
+   @scrolltolower="lower"
+  >
     <div class="recommendList">
         <scroll-view class='scroll-view-list' scroll-x="true">
             <ul>
-                <li class="active" @click="today">今日推荐</li>
-                <li v-for="(item,index) in recommedList" :key="index" @click="clickToItem(item)">
+                <li :class="flag?'active':''" @click="today">今日推荐</li>
+                <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item,index)" :class="index===i?'active':''">
                    {{item.cname}}
                 </li>
             </ul>
@@ -21,7 +24,7 @@
         </section>
     </div>
     <classifyList :data="getclassifyList"></classifyList>
-  </div>
+  </scroll-view>
  
 </template>
 
@@ -34,6 +37,10 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   data () {
+      return {
+          i:null,
+          flag:true
+      }
   },
   components: {
     classify,
@@ -41,7 +48,7 @@ export default {
   },
   computed: {
      ...mapState({
-         recommedList:state=>state.index.recommedList,
+         recommendList:state=>state.index.recommendList,
          saveItemList:state=>state.index.saveItemList,
          cid:state=>state.index.cid,
          getclassifyList:state=>state.index.getclassifyList
@@ -49,14 +56,20 @@ export default {
   },
   methods: {
     ...mapActions({
-        getRecommedList:"index/getRecommedList",
+        // getRecommedList:"index/getRecommed",
         getClassifyList:"index/getClassifyList"
        
     }),
     today(){
-        console.log(1)
+       this.i=null;
+       this.flag = true;
+       wx.navigateBack({
+         delta: 1
+        })
     },
-    clickToItem(item){
+    clickToItem(item,index){
+        this.i = index;
+        this.flag = false;
       //到单独的组件里 将item保存到vuex里
       this.$store.commit('index/saveItem',item);
       this.$store.dispatch('index/getClassifyList',{
@@ -64,20 +77,31 @@ export default {
           cid: item.cid,
           sortType: 1
       }); 
-    }
+    },
+    upper(){
+      console.log("上拉")
+    },
+    lower(){
+        console.log('下拉')
+    //   console.log("下拉",++this.pageIndex);
+    //   this.scrollTo(++this.pageIndex)
+    },
+    
   },
   
   created () {
    
   },
-  onShow(){
-    this.getRecommedList();
+  onLoad(){
+    let arr=JSON.parse(this.$root.$mp.query.arr)
+    this.$store.commit('index/saveItem',arr[1]);
     this.getClassifyList({
-          pageIndex: 1,
-          cid: 1,
-          sortType: 1
+        pageIndex: arr[0].pageIndex,
+        cid: arr[0].cid,
+        sortType: arr[0].sortType
     });
   }
+
 }
 </script>
 

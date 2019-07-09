@@ -1,4 +1,4 @@
- import {getRecommed,getClassify} from '@/service/index'
+ import {getClassify} from '@/service/index'
  import {swiperImg,getRecommed,scrollTo} from '@/api/home'
 
 const state={
@@ -16,15 +16,8 @@ const state={
 }
 //异步改变
 const actions={
-    //今日推荐
-    getRecommedList({commit},payload){
-        let data = getRecommed();
-        data.then(res=>{
-           commit('getRecommed',res.result)
-        })
-    },
     getClassifyList({commit},payload){
-        console.log('payload',payload)
+        // console.log('payload',payload)
         let obj={
             pageIndex:payload.pageIndex,
             cid:payload.cid,
@@ -34,7 +27,8 @@ const actions={
         data.then(res=>{
            commit('getClassify',res.result)
         })
-    },swiperImg({commit},payload){
+    },
+    swiperImg({commit},payload){
         let data=swiperImg();
         data.then(res=>{
             //swiper
@@ -73,16 +67,16 @@ const actions={
 }
 //同步改变
 const mutations = {
-    getRecommed(state,payload){
-        state.recommedList=payload;
-    },
     //到单独的组件里 将item保存到vuex里
     saveItem(state,payload){
        state.cid = payload.cid;
        state.saveItemList = payload.childs;
     },
+    changeCid(state,payload){
+      state.cid = payload;
+    },
     getClassify(state,payload){
-        console.log(payload)
+        // console.log(payload)
         state.getclassifyList = payload;
     },
     //swiper同步
@@ -108,7 +102,7 @@ const mutations = {
     //为你精选scrollTo的同步
     scrollTo(state,payload){
         state.scrollToList = payload;
-        console.log("scrollToList",state.scrollToList)
+        // console.log("scrollToList",state.scrollToList)
     },
     changePage(state,payload){
         state.pageIndex=payload
