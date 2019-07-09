@@ -25,14 +25,15 @@
         </div>
       </div>
       <div class="boxBig">
-
+        <BannerDl :DalList="DalList"></BannerDl>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState,mapActions} from "vuex"
+import {mapState,mapActions} from "vuex";
+import BannerDl from '@/components/BannerDl/BannerDl'
 export default {
   data(){
     return{
@@ -45,7 +46,7 @@ export default {
     }),
     clickItem(item,index){
       this.i=index;
-      this.$store.commit("bannerItem",item)
+      this.$store.commit("index/bannerItem",item)
     }
   },
    computed: {
@@ -58,6 +59,9 @@ export default {
     //修改标题
     wx.setNavigationBarTitle({ title: this.bannerToList.specialName });
   },
+  components:{
+    BannerDl
+  }
 }
 </script>
 
@@ -74,11 +78,9 @@ export default {
   flex:1;
   padding: 0 10px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+  overflow-y: scroll;
   .boxBig{
     width: 100%;
-    flex:1;
   }
   .header{
     width: 100%;

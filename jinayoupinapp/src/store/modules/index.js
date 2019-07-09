@@ -116,8 +116,7 @@ const mutations = {
     },
     //banner详情点击切换同步
     bannerItem(state,payload){
-        console.log(payload);
-        state.DalList=payload;
+        state.DalList=payload.products;
         console.log(state.DalList)
     }
 }
