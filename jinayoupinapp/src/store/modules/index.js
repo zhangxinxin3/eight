@@ -44,6 +44,7 @@ const actions={
             //组件图片数据
             let adOne = res.result.filter(item=>item.type==='adOne');
             commit('adOne',adOne);
+            console.log("result",res.result)
         })
     },
     //今天推荐scroll横向数据
@@ -65,7 +66,11 @@ const actions={
     },
     async bannerTo({commit},payload){
         let data=await bannerTo(payload);
-        commit('bannerTo',data.result)
+        if(data.res_code===1){
+            commit('bannerTo',data.result)
+        }else{
+            console.log(data.message)
+        }
     },
 }
 //同步改变
@@ -92,6 +97,7 @@ const mutations = {
     //组件列表同步
     sixProduct(state,payload){
         state.sixProductList = payload;
+        console.log(state.sixProductList)
     },
     //组件图片同步
     adOne(state,payload){
@@ -100,10 +106,11 @@ const mutations = {
     //今日推荐scroll横向数据同步
     getRecommed(state,payload){
         state.recommendList = payload;
-    },
+    }, 
     //为你精选scrollTo的同步
     scrollTo(state,payload){
         state.scrollToList = payload;
+        console.log(state.scrollToList)
     },
     //数据加载的页数改变赋值
     changePage(state,payload){

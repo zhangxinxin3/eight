@@ -1,6 +1,6 @@
 <template>
         <dl>
-          <div class="dls" v-for="(item,index) in scrollToList" :key="index">
+          <div class="dls" v-for="(item,index) in scrollToList" :key="index" @click="clickDetail(item.productVo.pid)">
           <dt><img :src="item.productVo.mainImgUrl" alt=""></dt>
           <dd>
             <h3>{{item.productVo.title}}</h3>
@@ -22,7 +22,12 @@
 
 <script>
 export default {
-    props:["scrollToList","isFreeShipping","isFreeTax"]
+    props:["scrollToList","isFreeShipping","isFreeTax","shopping"],
+    methods:{
+      clickDetail(pid){
+        this.shopping(pid)
+      }
+    }
 }
 </script>
 

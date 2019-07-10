@@ -53,7 +53,7 @@ export default {
        
     }),
     today(){
-        console.log(1)
+        console.log(2);
     },
     clickToItem(item){
       //到单独的组件里 将item保存到vuex里
