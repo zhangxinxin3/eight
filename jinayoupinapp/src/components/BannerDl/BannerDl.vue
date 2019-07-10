@@ -39,6 +39,7 @@ export default {
     display: flex;
     align-items: center;
     margin: 6px 0;
+    background: #fff
   }
   dt{
     width: 110px;
@@ -96,6 +97,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: #fff
     // margin: 6px 0;
   }
   dt{

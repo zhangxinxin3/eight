@@ -66,7 +66,11 @@ const actions={
     },
     async bannerTo({commit},payload){
         let data=await bannerTo(payload);
-        commit('bannerTo',data.result)
+        if(data.res_code===1){
+            commit('bannerTo',data.result)
+        }else{
+            console.log(data.message)
+        }
     },
 }
 //同步改变

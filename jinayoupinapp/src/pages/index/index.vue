@@ -23,7 +23,7 @@
       </div>  
     </swiper> 
     <div class="botBox">
-      <img class="left"  :src="botList[0].imgUrl" alt="">
+      <img class="left" @click="clickSwiperId(botList[0].contentValue)" :src="botList[0].imgUrl" alt="">
       <div class="right">
         <img :src="botList[1].imgUrl" @click="clickSwiperId(botList[1].contentValue)"  alt="">
         <img :src="botList[2].imgUrl" @click="clickSwiperId(botList[2].contentValue)" alt="">
