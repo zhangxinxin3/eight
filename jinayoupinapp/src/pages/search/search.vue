@@ -17,7 +17,7 @@
                     <image src="/static/images/del.png" alt="" />
                 </view>
                 <view class="mains">
-                    <text>111</text>
+                    <text v-for="(item,index) in historyArr" :key="index">{{item}}</text>
                 </view>    
             </view>
             <SearchList v-else></SearchList>
@@ -40,7 +40,8 @@ export default {
     },
     computed:{
         ...mapState({
-            search:state=>state.index.search
+            search:state=>state.index.search,
+            historyArr:state=>state.index.historyArr
         })
     },
     methods:{
@@ -56,6 +57,9 @@ export default {
                 pageIndex:this.search.typesPage
             })
         }
+    },
+    onShow(){
+        this.$store.commit('index/getHis')
     }
 }
 </script>
