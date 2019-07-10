@@ -1,8 +1,8 @@
 <template>
     <div class="box">
-        <img class="topImg" :src="img.pictUrl" alt="">
+        <img @click="ImgDal(img.jumpUrl)" class="topImg"  :src="img.pictUrl" alt="">
         <div class="recommendation">
-            <div class="left">
+            <div class="left"> 
                 <h2>精选好物</h2>
                 <span>等你来抢</span>
             </div>
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="content">
-            <div class="itemCont" v-for="(item,index) in data.items" :key="index">
+            <div class="itemCont" v-for="(item,index) in data.items" :key="index" @click="clickDetail(item.jumpUrl)">
                 <img :src="item.imgUrl" alt="">
                 <div class="bom">
                     <div>{{item.title}}</div>
@@ -25,7 +25,17 @@
 
 <script>
 export default {
-    props:["data","img"]
+    props:["data","img","submit","shopDeatil"],
+    methods:{
+        ImgDal(url){
+            let data=url.split('&')[1].split('=')[1]
+            this.submit(data);
+        },
+        clickDetail(pid){
+            let data=pid.split("&")[1].split('=')[1]
+            this.shopDeatil(data)
+        }
+    }
 }
 </script>
 

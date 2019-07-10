@@ -7,9 +7,9 @@
         <scroll-view class='scroll-view-list' scroll-x="true">
             <ul>
                 <li :class="flag?'active':''" @click="today">今日推荐</li>
-                <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item,index)" :class="index===i?'active':''">
-                   {{item.cname}}
-                </li>
+                <li v-for="(item,index) in recommendList" 
+                :key="index" 
+                @click="clickToItem(item,index)" :class="index===i?'active':''">{{item.cname}}</li>
             </ul>
         </scroll-view>
     </div>
@@ -44,8 +44,8 @@ export default {
       }
   },
   components: {
-    classify,
-    classifyList
+        classify,
+        classifyList
   },
   computed: {
      ...mapState({
@@ -71,44 +71,43 @@ export default {
     clickToItem(item,index){
         this.i = index;
         this.flag = false;
-      //到单独的组件里 将item保存到vuex里
-      this.$store.commit('index/saveItem',item);
-      this.getClassifyList({
-          pageIndex: 1,
-          cid: item.cid,
-          sortType: 1
-      })
+        //到单独的组件里 将item保存到vuex里
+        this.$store.commit('index/saveItem',item);
+        this.getClassifyList({
+            pageIndex: 1,
+            cid: item.cid,
+            sortType: 1
+        })
     },
     upper(){
-      console.log("上拉")
+         console.log("上拉")   
     },
     lower(){
-    //   console.log('下拉',++this.pageIndex)
-      this.getClassifyList({
-          pageIndex: ++this.pageIndex,
-          cid:this.cid,
-       })
+        // console.log('下拉',++this.pageIndex)
+        this.getClassifyList({
+            pageIndex: ++this.pageIndex,
+            cid:this.cid,
+            sortType: 1
+        })
     },
     //综合
     synthesize(){
-     this.getClassifyList({
-          pageIndex: 1,
-          cid: this.cid,
-          sortType: 1
-      })
+        this.getClassifyList({
+            pageIndex: 1,
+            cid: this.cid,
+            sortType: 1
+        })
     },
     //最新
     newset(){
-       this.getClassifyList({
-          pageIndex: 1,
-          cid: this.cid,
-          sortType: 2
-      }) 
-    
+        this.getClassifyList({
+            pageIndex: 1,
+            cid: this.cid,
+            sortType: 2
+        }) 
     },
     //价格
     price(){
-          
         if(this.first){
             //升价 3
             this.getClassifyList({
@@ -126,7 +125,7 @@ export default {
         }
         this.first = !this.first;
     },  
-  },
+},
   
   created () {
    

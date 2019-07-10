@@ -2,7 +2,7 @@
   <scroll-view class="wrap" :scroll-y="true"
   @scrolltoupper="upper" 
   @scrolltolower="lower">
-    <div class="searchBox">
+    <div class="searchBox" @click="search">
        <icon type="search" size="18"/>
        <input type="text" placeholder="搜索">
     </div>
@@ -17,24 +17,24 @@
       :indicator-dots="true"
       :autoplay="true" :interval="5000" :duration="1000">
       <div class="itemDiv" v-for="(item,index) in swiperList" :key="index">
-        <swiper-item>
+        <swiper-item @click="clickSwiperId(item.contentValue)">
           <image :src="item.imgUrl" class="slide-image" height="150"/>
         </swiper-item>
       </div>  
     </swiper> 
     <div class="botBox">
-      <img class="left" :src="botList[0].imgUrl" alt="">
+      <img class="left" @click="clickSwiperId(botList[0].contentValue)" :src="botList[0].imgUrl" alt="">
       <div class="right">
-        <img :src="botList[1].imgUrl" alt="">
-        <img :src="botList[2].imgUrl" alt="">
+        <img :src="botList[1].imgUrl" @click="clickSwiperId(botList[1].contentValue)"  alt="">
+        <img :src="botList[2].imgUrl" @click="clickSwiperId(botList[2].contentValue)" alt="">
       </div>
     </div>
     <div class="BigBox">
-      <Commodity :data="sixProductList[0]" :img="adOneList[0]"></Commodity>
-      <Commodity :data="sixProductList[1]" :img="adOneList[1]"></Commodity>
-      <Commodity :data="sixProductList[2]" :img="adOneList[2]"></Commodity>
-      <Commodity :data="sixProductList[3]" :img="adOneList[3]"></Commodity>
-      <Commodity :data="sixProductList[4]" :img="adOneList[4]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[0]" :img="adOneList[0]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[1]" :img="adOneList[1]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[2]" :img="adOneList[2]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[3]" :img="adOneList[3]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[4]" :img="adOneList[4]"></Commodity>
     </div>
     <div class="center">
       <div class="centTop">
@@ -44,7 +44,8 @@
       <div class="lowerScroll">
         <ScrollDl :scrollToList="scrollToList" 
         :isFreeShipping="isFreeShipping" 
-        :isFreeTax="isFreeTax"></ScrollDl>
+        :isFreeTax="isFreeTax"
+        :shopping="shopping"></ScrollDl>
       </div>
     </div>
   </scroll-view>
@@ -63,11 +64,12 @@ export default {
     }
   },
 
-  methods: {
+  methods: {    
    ...mapActions({
       swiperImg: 'index/swiperImg',
       getRecommed:"index/getRecommed",
-      scrollTo:"index/scrollTo"
+      scrollTo:"index/scrollTo",
+      bannerTo:"index/bannerTo"
     }),
     upper(){
       console.log("上拉")
@@ -76,43 +78,61 @@ export default {
       console.log("下拉",++this.pageIndex);
       this.scrollTo(++this.pageIndex)
     },
+    //点击banner图进入详情
+    clickSwiperId(siid){
+        this.bannerTo(siid);
+        wx.navigateTo({
+            url:"/pages/bannerDal/main?siid="+siid
+        })
+    },
+    //click横向滚动的每一项获取cid
     clickCid(item){
-      let objs={
-        pageIndex:1,
-        cid:item.cid,
-        sortType:1
-      }
-      let arr=[objs,item]
-      let arrs=JSON.stringify(arr);
-      wx.navigateTo({
-      url: '/pages/classify/main?arr='+arrs
+        let objs={
+            pageIndex:1,
+            cid:item.cid,
+            sortType:1
+        }
+        let arr=[objs,item]
+        let arrs=JSON.stringify(arr);
+        wx.navigateTo({
+            url: '/pages/classify/main?arr='+arrs
+        })
+    },
+    search(){
+        wx.navigateTo({
+            url:"/pages/search/main"
+        })
+    },
+    //点击上拉加载列表每一项进入购买页
+    shopping(pid){
+      wx.redirectTo({
+        url:"/pages/shop/shopDetail/main?pid="+pid
       })
     }
-
   },
  computed: {
-   ...mapState({
-      swiperList:state=>state.index.swiperList,
-      botList:state=>state.index.botList,
-      sixProductList:state=>state.index.sixProductList,
-      adOneList:state=>state.index.adOneList,
-      recommendList:state=>state.index.recommendList,
-      scrollToList:state=>state.index.scrollToList,
-      pageIndex:state=>state.index.pageIndex
-   })
+    ...mapState({
+        swiperList:state=>state.index.swiperList,
+        botList:state=>state.index.botList,
+        sixProductList:state=>state.index.sixProductList,
+        adOneList:state=>state.index.adOneList,
+        recommendList:state=>state.index.recommendList,
+        scrollToList:state=>state.index.scrollToList,
+        pageIndex:state=>state.index.pageIndex
+    })
   },
   created () {
-    this.swiperImg();
-    //scroll的横向数据
-    this.getRecommed();
-    //scroll数据滚动加载的数据
-    this.scrollTo(this.pageIndex);
+        this.swiperImg();
+        //scroll的横向数据
+        this.getRecommed();
+        //scroll数据滚动加载的数据
+        this.scrollTo(this.pageIndex);
   },
 
-  components: {
-      Commodity,
-      ScrollDl
-  }
+    components: {
+        Commodity,
+        ScrollDl
+    }
 }
 </script>
 
