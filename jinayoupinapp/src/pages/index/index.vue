@@ -2,7 +2,7 @@
   <scroll-view class="wrap" :scroll-y="true"
   @scrolltoupper="upper" 
   @scrolltolower="lower">
-    <div class="searchBox">
+    <div class="searchBox" @click="search">
        <icon type="search" size="18"/>
        <input type="text" placeholder="搜索">
     </div>
@@ -73,10 +73,13 @@ export default {
       console.log("上拉")
     },
     lower(){
-     
-      
       console.log("下拉",++this.pageIndex);
       this.scrollTo(++this.pageIndex)
+    },
+    search(){
+        wx.redirectTo({
+            url:"/pages/search/main"
+        })
     }
   },
  computed: {
