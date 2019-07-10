@@ -9,12 +9,14 @@
         <input type="text" placeholder="手机号码" @change="saveTel" maxlength="11" />
         <i class="iconfont icon-youjiantou"></i>
       </p>
+      <view class="section">
+        <picker mode="region" @change="regionChange" :custom-item="customItem">
+          <input type="text" placeholder="所选地区" :value="region" />
+          <i class="iconfont icon-youjiantou"></i>
+        </picker>
+      </view>
       <p>
-        <input type="text" placeholder="所在地区" @change="saveDetailAddress" />
-        <i class="iconfont icon-youjiantou"></i>
-      </p>
-      <p>
-        <input name id placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元 室等" @change="saveAddress" />
+        <input placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元 室等" @change="saveAddress" />
       </p>
     </div>
     <div class="tag">
@@ -56,7 +58,10 @@ export default {
       provinceName: state => state.mine.addRessObj.provinceName,
       state: state => state.mine.addRessObj.address,
       state: state => state.mine.addRessObj.address,
-      uid: state => state.mine.addRessObj.uid
+      uid: state => state.mine.addRessObj.uid,
+      region: state => state.mine.region,
+      customItem: state => state.mine.customItem,
+      addRessObj: state => state.mine.addRessObj
     })
   },
   methods: {
@@ -83,11 +88,11 @@ export default {
       });
     },
     //获取详细地址
-    saveDetailAddress(e) {
-      this.$store.commit("mine/saveObjDetailAddress", {
-        addressDetail: e.mp.detail.value
-      });
-    },
+    // saveDetailAddress(e) {
+    //   this.$store.commit("mine/saveObjDetailAddress", {
+    //     addressDetail: e.mp.detail.value
+    //   });
+    // },
     //获取地址
     saveAddress(e) {
       console.log(e);
@@ -101,28 +106,24 @@ export default {
         state: e.mp.detail.value
       });
     },
+    regionChange(e) {
+      this.$store.commit("mine/changeRegion", {
+        region: e.mp.detail.value
+      });
+    },
     //保存并返回
     saveObj() {
-      // wx.setStorage({
-      //   key: "key",
-      //   data: this.addRessObj,
-      // });
-      this.Cargoaddress({
-        address: this.address,
-        addressDetail: this.addressDetail,
-        areaId: this.areaId,
-        areaName: this.areaName,
-        cityId: this.cityId,
-        cityName: this.cityName,
-        consignee: this.consignee,
-        consigneePhone: this.consigneePhone,
-        provinceId: this.provinceId,
-        provinceName: this.provinceName,
-        state: this.state,
-        uid: this.uid
+      this.$store.commit("mine/getDetailAddress", {
+        addressDetail: this.region
       });
-      wx.navigateBack({
-        delta: 1
+      this.Cargoaddress(this.addRessObj);
+      let that = this;
+      wx.setStorage({
+        key: "addressList",
+        data: that.addRessObj
+      });
+      wx.redirectTo({
+        url: "/pages/mine/shippingAddress/main"
       });
     }
   }
@@ -204,5 +205,20 @@ export default {
   margin-left: 3%;
   background: gray;
   color: white;
+}
+.section {
+  height: 66rpx;
+  line-height: 66rpx;
+  width: 100%;
+  border-bottom: 1rpx solid #eee;
+  position: relative;
+  input {
+    margin-top: 2.5%;
+  }
+  i {
+    position: absolute;
+    right: 20rpx;
+    top: -8rpx;
+  }
 }
 </style>

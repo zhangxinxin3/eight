@@ -11,29 +11,11 @@ export function getRecommed(){
 export function scrollTo(page){
     return request.post('/api/open/page/home/products/1.0.0?pageIndex='+page);
 }
-
-// export function one(){
-//     return request.post('/api/open/init/app/1')
-// }
-
-// export function two(parentId){
-//     return request.post('/api/open/product/category/sub/1',{
-//         parentId
-//     })
-// }
-
-// export function three(parentId){
-//     return request.post('/api/open/product/category/sub/1',{
-//         parentId
-//     })
-// }
-
-// export function four(pageIndex){
-//     return request.post('/api/open/page/home/products/1.0.0',{
-//         pageIndex
-//     })
-// }
-
-// export function four(){
-//     return request.post('/api/open/page/home/list/1.0.0')
-// }
+//搜索
+export function searchTo(params){
+    return request.post('/api/open/search/query/1.0.0',params);
+}
+//banner图进入详情接口
+export function bannerTo(siid){
+    return request.post('/api/open/sepcial/query/1.0.0?siid='+siid);
+}

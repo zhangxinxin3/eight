@@ -59,23 +59,38 @@ const actions = {
         })
     },
     //为你精选scrollTo的数据
-    async scrollTo({ commit, state }, payload) {
-        commit('changePage', payload)
-
-        let data = await scrollTo(payload);
-        if (state.pageIndex === 1) {
-            commit('scrollTo', data.result);
-        } else {
-            commit('scrollTo', [...state.scrollToList, ...data.result]);
+    async scrollTo({commit,state},payload){
+        commit('changePage',payload)
+        let data=await scrollTo(payload);
+        if(state.pageIndex===1){
+            commit('scrollTo',data.result);
+        }else{
+            commit('scrollTo',[...state.scrollToList,...data.result]);
         }
     },
-
+    //搜索
+    async search(store,payload){
+        let data = await searchTo(payload);
+        console.log('搜索',data)
+        if(data.res_code === 1){
+            store.commit('upSearch',{
+                data:data.result,
+                payload
+            })
+        }else{
+            store.commit('upSearch',{
+                data:[],
+                payload
+            })
+        }
+    },
+    async bannerTo({commit},payload){
+        let data=await bannerTo(payload);
+        commit('bannerTo',data.result)
+    },
 }
 //同步改变
 const mutations = {
-    // getRecommed(state, payload) {
-    //     state.recommedList = payload;
-    // },
     //到单独的组件里 将item保存到vuex里
     saveItem(state, payload) {
         state.cid = payload.cid;
@@ -108,10 +123,32 @@ const mutations = {
     //为你精选scrollTo的同步
     scrollTo(state, payload) {
         state.scrollToList = payload;
-        console.log("scrollToList", state.scrollToList)
     },
-    changePage(state, payload) {
-        state.pageIndex = payload
+    //数据加载的页数改变赋值
+    changePage(state,payload){
+        state.pageIndex=payload
+    },
+    //搜索列表
+    upSearch(state,payload){
+        state.searchArr = payload.data;
+        let data = state.historyArr.filter(item=>item===payload.queryWord);
+        if(data.length){
+            return;
+        }else{
+            state.historyArr.push(payload.value);
+        }
+        state.value = payload.queryWord;
+        state.typesKey = payload.queryType;
+        state.typesSort = payload.querySort;
+    },
+    //点击banner进入详情同步
+    bannerTo(state,payload){
+        state.bannerToList=payload;
+        console.log("bannerToList",state.bannerToList)
+    },
+    //banner详情点击切换同步
+    bannerItem(state,payload){
+        state.DalList=payload;
     }
 }
 
