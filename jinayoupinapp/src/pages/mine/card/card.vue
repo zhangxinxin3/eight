@@ -10,7 +10,7 @@
             <view class="mainContent" v-for="item in productsList" :key="item.orderId">
                 <view class="contentTop">
                     <text>{{item.createTime}}</text>
-                    <text>{{item.cancleStatus?'已取消':'全部'}}</text>
+                    <text>{{item.processStatus === 5?'已取消':item.processStatus === 1?'待付款':'全部'}}</text>
                 </view>
                 <view class="contentMain">
                     <image :src="item.products[0].mainImgUrl" alt="" />
@@ -24,7 +24,11 @@
                     </view>
                 </view>
                 <view class="contentBottom">
-                    <text>共{{item.products[0].productNumber}}件商品 合计：￥{{item.products[0].productNumber*item.products[0].salesPrice}}</text>
+                    <text>共{{item.products[0].productNumber}}件商品 合计：￥{{item.totalAmount}}</text>
+                    <view class="btns" v-if="item.processStatus === 1">
+                        <button @click="cacels(item.orderId)">取消订单</button>
+                        <button>去付款{{item.totalAmount}}</button>
+                    </view>
                 </view>
             </view>
         </view>
@@ -50,7 +54,8 @@ export default {
     },
     methods:{
         ...mapActions({
-            products:"mine/products"
+            products:"mine/products",
+            cacel:'mine/cacel'
         }),
         ...mapMutations({
             changeKey:"mine/changeKey"
@@ -58,6 +63,24 @@ export default {
         tabs(key){
             this.changeKey(key);
             this.products();
+        },
+        cacels(orderId){
+            let that = this;
+            wx.showModal({
+                title: '温馨提示',
+                content: '是否取消订单?',
+                success (res) {
+                    if (res.confirm) {
+                        console.log()
+                        that.cacel({
+                            orderNumber:orderId
+                        })
+                        console.log('用户点击确定')
+                    } else if (res.cancel) {
+                        console.log('用户点击取消')
+                    }
+                }
+            })
         }
     }
 }
@@ -173,9 +196,31 @@ export default {
             padding:12rpx 24rpx;
             box-sizing: border-box;
             display: flex;
-            align-items: center;
-            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-around;
             font-size:26rpx;
+            .btns{
+                display: flex;
+                padding:20rpx 0;
+                box-sizing: border-box;
+                button{
+                    font-size:28rpx;
+                    // width:144rpx;
+                    padding:0 10rpx;
+                    box-sizing: border-box;
+                    height:60rpx;
+                    margin:0 10rpx;
+                    line-height: 60rpx;
+                }
+                button:nth-child(1){
+                    background:#fff;
+                }
+                button:nth-child(2){
+                    color:#fff;
+                    background:#fc5d7b;
+                }
+            }
         }
     }
 }

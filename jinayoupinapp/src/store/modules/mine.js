@@ -1,4 +1,4 @@
-import { getUser, products, coupons, Cargoaddress } from '@/api/mine'
+import { getUser, products, coupons, nums, Cargoaddress, cacel } from '@/api/mine'
 //原始数据
 const state = {
     positive: "",//身份证正面
@@ -57,7 +57,6 @@ const state = {
     state: 0,
     couponList: [],
     user: {},
-    Payment: 0, //待付款
 
 }
 const actions = {
@@ -106,6 +105,12 @@ const actions = {
         let data = await nums();
         console.log('数量',data)
         store.commit('upNum',data.result)
+    },
+    //取消订单
+    async cacel(store,payload){
+        console.log(payload)
+        let data = await cacel(payload);
+        console.log('取消订单',data)
     }
 }
 //同步改变，改变数据的唯一途径
@@ -177,9 +182,9 @@ const mutations = {
     upNum(state,payload){
         state.card.map(item=>{
             if(item.key===1){
-                item.Number = payload.pendingDeliverNumber;
-            }else if(item.key===2){
                 item.Number = payload.pendingPaymentNumber;
+            }else if(item.key===2){
+                item.Number = payload.pendingDeliverNumber;
             }else if(item.key===3){
                 item.Number = payload.pendingReceivingNumber;
             }

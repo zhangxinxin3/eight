@@ -1,6 +1,6 @@
 
  import {getClassify} from '@/service/index'
- import {swiperImg,getRecommed,scrollTo,bannerTo} from '@/api/home'
+ import {swiperImg,getRecommed,scrollTo,searchTo,bannerTo} from '@/api/home'
 
 const state={
     saveItemList:[],

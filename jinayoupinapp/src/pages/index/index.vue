@@ -77,49 +77,53 @@ export default {
     },
     //点击banner图进入详情
     clickSwiperId(siid){
-      this.bannerTo(siid);
-      wx.navigateTo({
-        url:"/pages/bannerDal/main?siid="+siid
-      })
+        this.bannerTo(siid);
+        wx.navigateTo({
+            url:"/pages/bannerDal/main?siid="+siid
+        })
     },
     //click横向滚动的每一项获取cid
     clickCid(item){
-      let objs={
-        pageIndex:1,
-        cid:item.cid,
-        sortType:1
-      }
-      let arr=[objs,item]
-      let arrs=JSON.stringify(arr);
-      wx.navigateTo({
-      url: '/pages/classify/main?arr='+arrs
-      })
+        let objs={
+            pageIndex:1,
+            cid:item.cid,
+            sortType:1
+        }
+        let arr=[objs,item]
+        let arrs=JSON.stringify(arr);
+        wx.navigateTo({
+            url: '/pages/classify/main?arr='+arrs
+        })
+    },
+    search(){
+        wx.navigateTo({
+            url:"/pages/search/main"
+        })
     }
-
   },
  computed: {
-   ...mapState({
-      swiperList:state=>state.index.swiperList,
-      botList:state=>state.index.botList,
-      sixProductList:state=>state.index.sixProductList,
-      adOneList:state=>state.index.adOneList,
-      recommendList:state=>state.index.recommendList,
-      scrollToList:state=>state.index.scrollToList,
-      pageIndex:state=>state.index.pageIndex
-   })
+    ...mapState({
+        swiperList:state=>state.index.swiperList,
+        botList:state=>state.index.botList,
+        sixProductList:state=>state.index.sixProductList,
+        adOneList:state=>state.index.adOneList,
+        recommendList:state=>state.index.recommendList,
+        scrollToList:state=>state.index.scrollToList,
+        pageIndex:state=>state.index.pageIndex
+    })
   },
   created () {
-    this.swiperImg();
-    //scroll的横向数据
-    this.getRecommed();
-    //scroll数据滚动加载的数据
-    this.scrollTo(this.pageIndex);
+        this.swiperImg();
+        //scroll的横向数据
+        this.getRecommed();
+        //scroll数据滚动加载的数据
+        this.scrollTo(this.pageIndex);
   },
 
-  components: {
-      Commodity,
-      ScrollDl
-  }
+    components: {
+        Commodity,
+        ScrollDl
+    }
 }
 </script>
 

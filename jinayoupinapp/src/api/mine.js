@@ -21,3 +21,7 @@ export function Cargoaddress(params) {
     console.log("添加地址页的params。。。", params)
     return request.post('/api/open/user/address/addAddress/1.0.0', params)
 }
+//取消订单
+export function cacel(params){
+    return request.post('/api/open/order/cancel/order/1.0.0',params)
+}

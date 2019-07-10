@@ -65,31 +65,31 @@ export default {
         //订单
         cards(key){
             this.changeKey(key);
-            wx.redirectTo({
+            wx.navigateTo({
                 url:"/pages/mine/card/main"
             })
         },
         //优惠券
         coupon(){
-            wx.redirectTo({
+            wx.navigateTo({
                 url:"/pages/mine/coupon/main"
             })
         },
         //添加地址
         jumpAddress(){
-            wx.redirectTo({
+            wx.navigateTo({
                 url:"/pages/mine/shippingAddress/main"
             })
         },
         //客服
         service(){
-            wx.redirectTo({
+            wx.navigateTo({
                 url:"/pages/mine/service/main"
             })
         },
         //实名认证
         authentication(){
-            wx.redirectTo({
+            wx.navigateTo({
                 url:"/pages/mine/authenTication/main"
             })
         }
