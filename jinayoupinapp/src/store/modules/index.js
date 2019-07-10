@@ -44,6 +44,7 @@ const actions={
             //组件图片数据
             let adOne = res.result.filter(item=>item.type==='adOne');
             commit('adOne',adOne);
+            console.log("result",res.result)
         })
     },
     //今天推荐scroll横向数据
@@ -88,6 +89,7 @@ const mutations = {
     //bot同步
     botImg(state,payload){
         state.botList=payload;
+        console.log(state.botList)
     },
     //组件列表同步
     sixProduct(state,payload){
@@ -96,6 +98,7 @@ const mutations = {
     //组件图片同步
     adOne(state,payload){
         state.adOneList = payload;
+        console.log(state.adOneList)
     },
     //今日推荐scroll横向数据同步
     getRecommed(state,payload){

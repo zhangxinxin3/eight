@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="boxBig">
-        <BannerDl :uiType="DalList.uiType" :DalList="DalList.products"></BannerDl>
+        <BannerDl  :uiType="DalList.uiType" :DalList="DalList.products"></BannerDl>
       </div>
     </div>
   </div>

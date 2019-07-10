@@ -22,7 +22,10 @@
 
 <script>
 export default {
-    props:["scrollToList","isFreeShipping","isFreeTax"]
+    props:["scrollToList","isFreeShipping","isFreeTax"],
+    methods:{
+   
+    }
 }
 </script>
 

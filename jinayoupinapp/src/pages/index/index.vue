@@ -23,18 +23,18 @@
       </div>  
     </swiper> 
     <div class="botBox">
-      <img class="left" :src="botList[0].imgUrl" alt="">
+      <img class="left"  :src="botList[0].imgUrl" alt="">
       <div class="right">
-        <img :src="botList[1].imgUrl" alt="">
-        <img :src="botList[2].imgUrl" alt="">
+        <img :src="botList[1].imgUrl" @click="clickSwiperId(botList[1].contentValue)"  alt="">
+        <img :src="botList[2].imgUrl" @click="clickSwiperId(botList[2].contentValue)" alt="">
       </div>
     </div>
     <div class="BigBox">
-      <Commodity :data="sixProductList[0]" :img="adOneList[0]"></Commodity>
-      <Commodity :data="sixProductList[1]" :img="adOneList[1]"></Commodity>
-      <Commodity :data="sixProductList[2]" :img="adOneList[2]"></Commodity>
-      <Commodity :data="sixProductList[3]" :img="adOneList[3]"></Commodity>
-      <Commodity :data="sixProductList[4]" :img="adOneList[4]"></Commodity>
+      <Commodity :submit="clickSwiperId" :data="sixProductList[0]" :img="adOneList[0]"></Commodity>
+      <Commodity :submit="clickSwiperId" :data="sixProductList[1]" :img="adOneList[1]"></Commodity>
+      <Commodity :submit="clickSwiperId" :data="sixProductList[2]" :img="adOneList[2]"></Commodity>
+      <Commodity :submit="clickSwiperId" :data="sixProductList[3]" :img="adOneList[3]"></Commodity>
+      <Commodity :submit="clickSwiperId" :data="sixProductList[4]" :img="adOneList[4]"></Commodity>
     </div>
     <div class="center">
       <div class="centTop">
@@ -63,7 +63,7 @@ export default {
     }
   },
 
-  methods: {
+  methods: {    
    ...mapActions({
       swiperImg: 'index/swiperImg',
       getRecommed:"index/getRecommed",
@@ -90,7 +90,7 @@ export default {
       }
       let arr=[objs,item]
       let arrs=JSON.stringify(arr);
-      wx.navigateTo({
+      wx.redirectTo({
       url: '/pages/classify/main?arr='+arrs
       })
     }

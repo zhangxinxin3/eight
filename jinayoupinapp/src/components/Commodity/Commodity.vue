@@ -1,8 +1,8 @@
 <template>
     <div class="box">
-        <img class="topImg" :src="img.pictUrl" alt="">
+        <img @click="ImgDal(img.jumpUrl)" class="topImg"  :src="img.pictUrl" alt="">
         <div class="recommendation">
-            <div class="left">
+            <div class="left"> 
                 <h2>精选好物</h2>
                 <span>等你来抢</span>
             </div>
@@ -25,7 +25,13 @@
 
 <script>
 export default {
-    props:["data","img"]
+    props:["data","img","submit"],
+    methods:{
+        ImgDal(url){
+            let data=url.split('&')[1].split('=')[1]
+            this.submit(data);
+        },
+    }
 }
 </script>
 
