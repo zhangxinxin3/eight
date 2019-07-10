@@ -3,11 +3,11 @@
     <div class="header">
       <p>
         <b>真实姓名</b>
-        <input type="text" />
+        <input type="text" @change="saveName" :value="trueName" />
       </p>
       <p>
         <b>身份证号</b>
-        <input type="idcard" maxlength="18" />
+        <input type="idcard" maxlength="18" @change="saveIdNumber" :value="idNumber" />
       </p>
     </div>
     <div class="photo">
@@ -18,11 +18,11 @@
       <div class="zf">
         <div class="positive btn" @click="updataPositive">
           <span>点击上传身份证正面</span>
-          <img :src="positive" alt />
+          <img :src="idFrontImgUrl" alt />
         </div>
         <div class="negative btn" @click="updataNegative">
           <span>点击上传身份证反面</span>
-          <img :src="negative" alt />
+          <img :src="idReverseImgUrl" alt />
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
       <p>根据海关规定，购买跨境商品需要办理清关手续，请您配合进行实名认证，以确保您购买分的商品顺利通过海关检查。（积纳有关海购承诺所传身份证明只用于办理跨境商品的情关手续，不做他途使用，其他任何人均法查看）</p>
       <p>实名认证的规则：购买跨境商品须填写积纳账号注册人的真实姓名、身份证号码及与实名一致的手机号，部分商品下单时需提供收货人的实名信息（含身份证照片），具体请已下单时的提示为准。</p>
     </div>
-    <button>保存</button>
+    <button @click="saveMessage">保存</button>
   </div>
 </template>
 <script>
@@ -39,12 +39,32 @@ import { mapState, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState({
-      positive: state => state.mine.positive,
-      negative: state => state.mine.negative
+      idFrontImgUrl: state => state.mine.idObj.idFrontImgUrl,
+      idReverseImgUrl: state => state.mine.idObj.idReverseImgUrl,
+      idNumber: state => state.mine.idObj.idNumber,
+      trueName: state => state.mine.idObj.trueName,
+      idObj: state => state.mine.idObj
     })
   },
   methods: {
-    updataPositive() {
+    ...mapActions({
+      authenTication: "mine/authenTication"
+    }),
+    //保存姓名
+    saveName(e) {
+      this.$store.commit("mine/saveTrueName", {
+        trueName: e.mp.detail.value
+      });
+    },
+    //保存身份证号
+    saveIdNumber(e) {
+      this.$store.commit("mine/saveIdNumber", {
+        idNumber: e.mp.detail.value
+      });
+    },
+    //身份证正面
+    updataPositive(e) {
+      console.log(e);
       let that = this;
       wx.chooseImage({
         count: 1,
@@ -53,7 +73,7 @@ export default {
         success: res => {
           const tempFilePaths = res.tempFilePaths[0];
           that.$store.commit("mine/changePositiveImg", {
-            positive: tempFilePaths
+            idFrontImgUrl: tempFilePaths
           });
           console.log(tempFilePaths, this.data);
         },
@@ -65,6 +85,7 @@ export default {
         }
       });
     },
+    //身份证反面
     updataNegative() {
       let that = this;
       wx.chooseImage({
@@ -74,7 +95,7 @@ export default {
         success: res => {
           const tempFilePaths = res.tempFilePaths[0];
           that.$store.commit("mine/changeNegativeImg", {
-            negative: tempFilePaths
+            idReverseImgUrl: tempFilePaths
           });
           console.log(tempFilePaths, this.data);
         },
@@ -85,7 +106,29 @@ export default {
           console.log("complete");
         }
       });
+    },
+    saveMessage() {
+      let that = this;
+      this.authenTication(this.idObj);
+      wx.setStorage({
+        key: "idMessage",
+        data: that.idObj
+      });
     }
+  },
+  onLoad() {
+    let that = this;
+    wx.getStorage({
+      key: "idMessage",
+      success: res => {
+        console.log("123xxx", res.data);
+        console.log(that.idObj);
+        this.authenTication(res.data);
+        this.$store.commit("mine/showMessage", {
+          idObj: res.data
+        });
+      }
+    });
   }
 };
 </script>

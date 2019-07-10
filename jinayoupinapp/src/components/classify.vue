@@ -1,7 +1,7 @@
 <template>
 <div class="wrap">
   <div class="list-top">
-    <section v-for="(item,index) in data" :key="index">
+    <section v-for="(item,index) in data" :key="index" @click="imgUrlClick(item)">
       <img :src="item.imgUrl" alt="">
       <span>{{item.cname}}</span>
     </section>
@@ -12,8 +12,33 @@
 </template>
 
 <script>
+
+import { mapState, mapActions } from "vuex";
+
 export default {
    props: ['data'],
+   computed: {
+     ...mapState({
+         recommendList:state=>state.index.recommendList,
+         saveItemList:state=>state.index.saveItemList,
+         cid:state=>state.index.cid,
+         getclassifyList:state=>state.index.getclassifyList,
+         pageIndex:state=>state.index.pageIndex
+     }) 
+   },
+   methods:{
+       ...mapActions({
+        getClassifyList:"index/getClassifyList"
+       
+       }),
+       imgUrlClick(item){
+          this.getClassifyList({
+              pageIndex: 1,
+              cid: item.cid,
+              sortType: 1
+          })
+       }
+   }
 }
 </script>
 
