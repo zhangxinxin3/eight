@@ -93,24 +93,24 @@ const mutations = {
     //bot同步
     botImg(state,payload){
         state.botList=payload;
-        console.log(state.botList)
     },
     //组件列表同步
     sixProduct(state,payload){
         state.sixProductList = payload;
+        console.log(state.sixProductList)
     },
     //组件图片同步
     adOne(state,payload){
         state.adOneList = payload;
-        console.log(state.adOneList)
     },
     //今日推荐scroll横向数据同步
     getRecommed(state,payload){
         state.recommendList = payload;
-    },
+    }, 
     //为你精选scrollTo的同步
     scrollTo(state,payload){
         state.scrollToList = payload;
+        console.log(state.scrollToList)
     },
     //数据加载的页数改变赋值
     changePage(state,payload){

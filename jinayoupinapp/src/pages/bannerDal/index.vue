@@ -53,7 +53,7 @@ export default {
     },
     //吸顶
     scrolls(e){
-      console.log(e.mp.detail.scrollTop);
+      console.log("250",e.mp.detail.scrollTop);
       this.top=e.mp.detail.scrollTop
     }
   },

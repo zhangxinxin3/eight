@@ -30,11 +30,11 @@
       </div>
     </div>
     <div class="BigBox">
-      <Commodity :submit="clickSwiperId" :data="sixProductList[0]" :img="adOneList[0]"></Commodity>
-      <Commodity :submit="clickSwiperId" :data="sixProductList[1]" :img="adOneList[1]"></Commodity>
-      <Commodity :submit="clickSwiperId" :data="sixProductList[2]" :img="adOneList[2]"></Commodity>
-      <Commodity :submit="clickSwiperId" :data="sixProductList[3]" :img="adOneList[3]"></Commodity>
-      <Commodity :submit="clickSwiperId" :data="sixProductList[4]" :img="adOneList[4]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[0]" :img="adOneList[0]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[1]" :img="adOneList[1]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[2]" :img="adOneList[2]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[3]" :img="adOneList[3]"></Commodity>
+      <Commodity :shopDeatil="shopping" :submit="clickSwiperId" :data="sixProductList[4]" :img="adOneList[4]"></Commodity>
     </div>
     <div class="center">
       <div class="centTop">
@@ -44,7 +44,8 @@
       <div class="lowerScroll">
         <ScrollDl :scrollToList="scrollToList" 
         :isFreeShipping="isFreeShipping" 
-        :isFreeTax="isFreeTax"></ScrollDl>
+        :isFreeTax="isFreeTax"
+        :shopping="shopping"></ScrollDl>
       </div>
     </div>
   </scroll-view>
@@ -92,6 +93,12 @@ export default {
       let arrs=JSON.stringify(arr);
       wx.redirectTo({
       url: '/pages/classify/main?arr='+arrs
+      })
+    },
+    //点击上拉加载列表每一项进入购买页
+    shopping(pid){
+      wx.redirectTo({
+        url:"/pages/shop/shopDetail/main?pid="+pid
       })
     }
   },

@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="content">
-            <div class="itemCont" v-for="(item,index) in data.items" :key="index">
+            <div class="itemCont" v-for="(item,index) in data.items" :key="index" @click="clickDetail(item.jumpUrl)">
                 <img :src="item.imgUrl" alt="">
                 <div class="bom">
                     <div>{{item.title}}</div>
@@ -25,12 +25,16 @@
 
 <script>
 export default {
-    props:["data","img","submit"],
+    props:["data","img","submit","shopDeatil"],
     methods:{
         ImgDal(url){
             let data=url.split('&')[1].split('=')[1]
             this.submit(data);
         },
+        clickDetail(pid){
+            let data=pid.split("&")[1].split('=')[1]
+            this.shopDeatil(data)
+        }
     }
 }
 </script>
