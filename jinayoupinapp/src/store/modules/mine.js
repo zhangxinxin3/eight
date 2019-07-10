@@ -14,16 +14,18 @@ const state = {
         address: "",
         addressDetail: "",
         areaId: 130304,
-        areaName: "北戴河区",
+        areaName: "",
         cityId: 130300,
-        cityName: "秦皇岛市",
+        cityName: "",
         consignee: "",
         consigneePhone: "",
         provinceId: 130000,
-        provinceName: "河北省",
+        provinceName: "",
         state: 1,
         uid: 191200
     },
+    region: [],
+    customItem: "全部",
     addressList: [],
     card: [{
         title: "全部",
@@ -57,7 +59,14 @@ const state = {
     state: 0,
     couponList: [],
     user: {},
-
+    idObj: {
+        idNumber: "",
+        trueName: "",
+        idFrontImgUrl: "",
+        idReverseImgUrl: ""
+    },
+    newObj: {},
+    invitationCode:""//邀请码
 }
 const actions = {
     async getUser(store, payload) {
@@ -68,16 +77,16 @@ const actions = {
     },
     async products(store, payload) {
         let data = await products({
-            pageIndex:store.state.page,
-            orderStatus:store.state.key
-        });    
-        
-        console.log('订单',data)
-        if(data.res_code===1){
-            store.commit('getProducts',data.result)
+            pageIndex: store.state.page,
+            orderStatus: store.state.key
+        });
+
+        console.log('订单', data)
+        if (data.res_code === 1) {
+            store.commit('getProducts', data.result)
             // return 
-        }else{
-            store.commit('getProducts',[])
+        } else {
+            store.commit('getProducts', [])
         }
     },
     async coupons(store, payload) {
@@ -101,7 +110,7 @@ const actions = {
             store.commit("updataList", {})
         }
     },
-    async getNum(store){
+    async getNum(store) {
         let data = await nums();
         console.log('数量',data)
         store.commit('upNum',data.result)
@@ -111,22 +120,58 @@ const actions = {
         console.log(payload)
         let data = await cacel(payload);
         console.log('取消订单',data)
+        console.log('数量', data)
+        store.commit('upNum', data.result)
+    },
+    //实名
+    async authenTication(store, payload) {
+        console.log("请求接口打印的...", store, payload, state.idObj)
+        let data = await authenTication(payload)
+        console.log(data)
+        if (data.res_code === 1) {
+            wx.showToast({
+                title: '成功',
+                icon: 'none',
+            });
+        } else {
+            wx.showToast({
+                title: '失败',
+                icon: 'none',
+            });
+        }
     }
 }
 //同步改变，改变数据的唯一途径
 const mutations = {
+    //复制邀请码
+    saveInvitationCode(state,payload){
+        state.invitationCode = payload.invitationCode
+        console.log(state.invitationCode)
+    },
     //身份证正面
     changePositiveImg(state, payload) {
-        state.positive = payload.positive
+        state.idObj.idFrontImgUrl = payload.idFrontImgUrl
     },
     //身份证反面
     changeNegativeImg(state, payload) {
-        state.negative = payload.negative
+        state.idObj.idReverseImgUrl = payload.idReverseImgUrl
+    },
+    //真实姓名
+    saveTrueName(state, payload) {
+        state.idObj.trueName = payload.trueName
+    },
+    saveIdNumber(state, payload) {
+        state.idObj.idNumber = payload.idNumber
+    },
+    showMessage(state, payload) {
+        state.idObj = payload.idObj
+        console.log("showMessage...", state)
     },
     //更改span标签的样式以及获取内容
     changeActive(state, payload) {
         state.currentTab = payload.currentTab
         state.addRessObj.spn = payload.spn
+        state.addressList.spn = payload.spn
     },
     //获取收货人名字
     saveObjName(state, payload) {
@@ -147,9 +192,16 @@ const mutations = {
     saveObjAddress(state, payload) {
         state.addRessObj.address = payload.address
     },
-    //获取详细地址
-    saveObjDetailAddress(state, payload) {
-        state.addRessObj.addressDetail = payload.addressDetail
+    changeRegion(state, payload) {
+        state.addRessObj.provinceName = payload.region[0]
+        state.addRessObj.cityName = payload.region[1]
+        state.addRessObj.areaName = payload.region[2]
+        state.region = payload.region
+    },
+    //详细地址
+    getDetailAddress(state, payload) {
+        let newDetil = payload.addressDetail[0] + "" + payload.addressDetail[1] + "" + payload.addressDetail[2] + "" + state.addRessObj.address;
+        state.addRessObj.addressDetail = newDetil
     },
     //获取按钮状态
     saveObjstatus(state, payload) {
@@ -162,7 +214,12 @@ const mutations = {
     },
     //添加收货地址列表
     updataList(state, payload) {
-        state.addressList.push(payload)
+        console.log(state.addressList, payload)
+        state.addressList = state.addressList.push(payload)
+    },
+    getAddressList(state, payload) {
+        console.log("xiaosanba", state, payload)
+        state.addressList = payload.addressList
     },
     changeKey(state, payload) {
         state.key = payload;

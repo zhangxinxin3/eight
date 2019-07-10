@@ -25,3 +25,8 @@ export function Cargoaddress(params) {
 export function cacel(params){
     return request.post('/api/open/order/cancel/order/1.0.0',params)
 }
+//实名认证
+export function authenTication(params){
+    console.log(params)
+    return request.post("/api/open/user/auth/editBase64/1.0.0",params)
+}

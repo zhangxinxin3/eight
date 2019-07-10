@@ -1,15 +1,16 @@
 <template>
-  <div class="wrap">
+  <scroll-view class="wrap" @scroll="scrolls" :scroll-y="true">
     <div class="topImg">
       <img :src="bannerToList.specialImg" alt="">
     </div>
-    <scroll-view :scroll-x="true" class="topTit">
-      <span v-for="(item,index) in bannerToList.anchors" :key="index" 
-      :class="index===i?'active':''" 
-      @click="clickItem(item,index)">
-        {{item.anchorName}}
-      </span>
-    </scroll-view>
+      <scroll-view :scroll-x="true" id="topTit" 
+      :class="top > 100 ? 'flexd' : ''">
+        <span v-for="(item,index) in bannerToList.anchors" :key="index" 
+        :class="index===i?'active':''" 
+        @click="clickItem(item,index)">
+          {{item.anchorName}}
+        </span>
+      </scroll-view>
     <div class="content">
       <div class="header">
         <div class="child">
@@ -25,10 +26,10 @@
         </div>
       </div>
       <div class="boxBig">
-        <BannerDl :uiType="DalList.uiType" :DalList="DalList.products"></BannerDl>
+        <BannerDl  :uiType="DalList.uiType" :DalList="DalList.products"></BannerDl>
       </div>
     </div>
-  </div>
+  </scroll-view>
 </template>
 
 <script>
@@ -37,16 +38,23 @@ import BannerDl from '@/components/BannerDl/BannerDl'
 export default {
   data(){
     return{
-      i:0
+      i:0,
+      top:0
     }
   },
   methods:{
    ...mapActions({
      bannerTo:"index/bannerTo"
     }),
+    //点击每一项
     clickItem(item,index){
       this.i=index;
       this.$store.commit("index/bannerItem",item)
+    },
+    //吸顶
+    scrolls(e){
+      console.log("250",e.mp.detail.scrollTop);
+      this.top=e.mp.detail.scrollTop
     }
   },
    computed: {
@@ -76,12 +84,18 @@ export default {
   flex-direction: column;
   background: rgb(243,247,247);
 }
+.flexd{
+  position: fixed;
+  left: 0;
+  top:0;
+  z-index: 99;
+}
 .content{
   width: 100%;
   flex:1;
   padding: 0 10px;
   box-sizing: border-box;
-  overflow-y: scroll;
+  // overflow-y: scroll;
   .boxBig{
     width: 100%;
   }
@@ -128,7 +142,7 @@ export default {
     height: 100%;
   }
 }
-.topTit{
+#topTit{
   width: 100%;
   height: 50px;
   line-height: 50px;
