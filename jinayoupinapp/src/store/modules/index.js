@@ -25,16 +25,17 @@ const state={
     },{
         title:"价格",
         key:2,
-        sort:'desc',
-        child:[{
-            title:"价格从高到低",
-            key:2,
-            sort:'desc'
-        },{
-            title:"价格从低到高",
-            key:2,
-            sort:'asc'
-        }]
+        sort:'asc'
+    }],
+    flag:false,
+    child:[{
+        title:"价格从高到低",
+        key:2,
+        sort:'desc'
+    },{
+        title:"价格从低到高",
+        key:2,
+        sort:'asc'
     }],
     search:{
         value:'',
@@ -96,9 +97,11 @@ const actions={
     },
     //搜索
     async search(store,payload){
+        console.log('payload',payload)
         let data = await searchTo(payload);
         console.log('搜索',data)
         if(data.res_code === 1){
+            console.log('同步操作')
             store.commit('upSearch',{
                 data:data.result,
                 payload
@@ -157,15 +160,26 @@ const mutations = {
     //搜索列表
     upSearch(state,payload){
         state.searchArr = payload.data;
-        let data = state.historyArr.filter(item=>item===payload.queryWord);
-        if(data.length){
-            return;
-        }else{
-            state.historyArr.push(payload.value);
+        state.search.value = payload.payload.queryWord;
+        state.search.typesKey = payload.payload.queryType;
+        state.search.typesSort = payload.payload.querySort;
+        console.log('state.search',state.search)
+        if(payload.payload.queryType===2){
+            state.flag = !state.flag;
         }
-        state.value = payload.queryWord;
-        state.typesKey = payload.queryType;
-        state.typesSort = payload.querySort;
+        console.log("state.flag",state.flag)
+        let data = state.historyArr.filter(item=>item===payload.payload.queryWord);
+        console.log('data',data)
+        if(data.length === 0){
+            state.historyArr.push(payload.payload.queryWord);
+            console.log('state.historyArr',state.historyArr)
+            wx.setStorage({
+                key:"historyArr",
+                data:JSON.stringify(state.historyArr)
+            })
+        }else{
+            return;
+        }
     },
     //点击banner进入详情同步
     bannerTo(state,payload){
@@ -175,6 +189,15 @@ const mutations = {
     //banner详情点击切换同步
     bannerItem(state,payload){
         state.DalList=payload;
+    },
+    getHis(state,payload){
+        wx.getStorage({
+            key: 'historyArr',
+            success (res) {
+              console.log('res.data',JSON.parse(res.data))
+              state.historyArr = JSON.parse(res.data);
+            }
+        })
     }
 }
 
