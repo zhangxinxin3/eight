@@ -1,61 +1,3 @@
-<<<<<<< HEAD
- import {getClassify} from '@/service/index'
- import {swiperImg,getRecommed,scrollTo,bannerTo} from '@/api/home'
-
-const state={
-    saveItemList:[],
-    cid:'',
-    getclassifyList:[],
-    swiperList:[],//swiper
-    botList:[],//bot
-    sixProductList:[],//列表数据
-    adOneList:[],//列表大图
-    recommendList:[],//scroll横向
-    scrollToList:[],//scroll加载的数据
-    pageIndex:1,
-    searchArr:[],//搜索列表
-    historyArr:[], //历史搜索
-    types:[{
-        title:"综合",
-        key:0,
-        sort:'asc'
-    },{
-        title:"最新",
-        key:1,
-        sort:'asc'
-    },{
-        title:"价格",
-        key:2,
-        sort:'desc',
-        child:[{
-            title:"价格从高到低",
-            key:2,
-            sort:'desc'
-        },{
-            title:"价格从低到高",
-            key:2,
-            sort:'asc'
-        }]
-    }],
-    search:{
-        value:'',
-        typesSort:'asc',
-        typesKey:0, //排序
-        typesPage:1    
-    },
-    //今日推荐
-    pageIndex:1,//页面数据加载页数
-    bannerToList:[],//banner进入详情的数据,
-    DalList:{},//banner详情点击对应数据
-}
-//异步改变
-const actions={
-    getClassifyList({commit},payload){
-        let obj={
-            pageIndex:payload.pageIndex,
-            cid:payload.cid,
-            sortType:payload.sortType
-=======
 import { getRecommeds, getClassify } from '@/service/index'
 import { swiperImg, getRecommed, scrollTo } from '@/api/home'
 
@@ -87,22 +29,14 @@ const actions = {
             pageIndex: payload.pageIndex,
             cid: payload.cid,
             sortType: payload.sortType
->>>>>>> np
         };
         let data = getClassify(obj);
         data.then(res => {
             commit('getClassify', res.result)
         })
-<<<<<<< HEAD
-    },
-    swiperImg({commit},payload){
-        let data=swiperImg();
-        data.then(res=>{
-=======
     }, swiperImg({ commit }, payload) {
         let data = swiperImg();
         data.then(res => {
->>>>>>> np
             //swiper
             let swiperData = res.result[0].items;
             commit("swiperImg", swiperData);
@@ -125,7 +59,6 @@ const actions = {
         })
     },
     //为你精选scrollTo的数据
-<<<<<<< HEAD
     async scrollTo({commit,state},payload){
         commit('changePage',payload)
         let data=await scrollTo(payload);
@@ -158,25 +91,6 @@ const actions = {
 }
 //同步改变
 const mutations = {
-=======
-    async scrollTo({ commit, state }, payload) {
-        commit('changePage', payload)
-
-        let data = await scrollTo(payload);
-        if (state.pageIndex === 1) {
-            commit('scrollTo', data.result);
-        } else {
-            commit('scrollTo', [...state.scrollToList, ...data.result]);
-        }
-    },
-
-}
-//同步改变
-const mutations = {
-    // getRecommed(state, payload) {
-    //     state.recommedList = payload;
-    // },
->>>>>>> np
     //到单独的组件里 将item保存到vuex里
     saveItem(state, payload) {
         state.cid = payload.cid;
@@ -209,7 +123,6 @@ const mutations = {
     //为你精选scrollTo的同步
     scrollTo(state, payload) {
         state.scrollToList = payload;
-<<<<<<< HEAD
     },
     //数据加载的页数改变赋值
     changePage(state,payload){
@@ -236,12 +149,6 @@ const mutations = {
     //banner详情点击切换同步
     bannerItem(state,payload){
         state.DalList=payload;
-=======
-        console.log("scrollToList", state.scrollToList)
-    },
-    changePage(state, payload) {
-        state.pageIndex = payload
->>>>>>> np
     }
 }
 

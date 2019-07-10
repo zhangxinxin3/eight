@@ -21,3 +21,8 @@ export function Cargoaddress(params) {
     console.log("添加地址页的params。。。", params)
     return request.post('/api/open/user/address/addAddress/1.0.0', params)
 }
+//实名认证
+export function authenTication(params){
+    console.log(params)
+    return request.post("/api/open/user/auth/editBase64/1.0.0",params)
+}
