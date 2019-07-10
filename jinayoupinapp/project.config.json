@@ -54,13 +54,13 @@
 					"id": -1,
 					"name": "今日推荐",
 					"pathName": "pages/classify/main"
-                },
+				},
 				{
 					"id": 0,
 					"name": "我的那一页",
 					"pathName": "pages/mine/addAddress/main",
-                    "query": ""
-                },
+					"query": ""
+				},
 				{
 					"id": 0,
 					"name": "实名认证",
@@ -88,8 +88,9 @@
 					"pathName": "pages/mine/addAddress/main",
 					"query": "",
 					"scene": null
-				},{
-					"id":4,
+				},
+				{
+					"id": 4,
 					"name": "我的",
 					"pathName": "pages/mine/my/main",
 					"query": "",

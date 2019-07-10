@@ -8,12 +8,6 @@
             <ul>
                 <li :class="flag?'active':''" @click="today">今日推荐</li>
                 <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item,index)" :class="index===i?'active':''">
-                <li class="active" @click="today">今日推荐</li>
-<<<<<<< HEAD
-                <li v-for="(item,index) in recommendList" :key="index" @click="clickToItem(item)">
-=======
-                <li v-for="(item,index) in recommedList" :key="index" @click="clickToItem(item)">
->>>>>>> np
                    {{item.cname}}
                 </li>
             </ul>
@@ -55,11 +49,7 @@ export default {
   },
   computed: {
      ...mapState({
-<<<<<<< HEAD
          recommendList:state=>state.index.recommendList,
-=======
-         recommedList:state=>state.index.recommedList,
->>>>>>> np
          saveItemList:state=>state.index.saveItemList,
          cid:state=>state.index.cid,
          getclassifyList:state=>state.index.getclassifyList,
@@ -68,10 +58,6 @@ export default {
   },
   methods: {
     ...mapActions({
-<<<<<<< HEAD
-=======
-        getRecommedList:"index/getRecommedList",
->>>>>>> np
         getClassifyList:"index/getClassifyList"
        
     }),
@@ -145,7 +131,6 @@ export default {
   created () {
    
   },
-<<<<<<< HEAD
   onLoad(){
     let arr=JSON.parse(this.$root.$mp.query.arr)
     this.$store.commit('index/saveItem',arr[1]);
@@ -153,14 +138,6 @@ export default {
         pageIndex: arr[0].pageIndex,
         cid: arr[0].cid,
         sortType: arr[0].sortType
-=======
-  onShow(){
-    this.getRecommedList();
-    this.getClassifyList({
-          pageIndex: 1,
-          cid: 1,
-          sortType: 1
->>>>>>> np
     });
   }
 

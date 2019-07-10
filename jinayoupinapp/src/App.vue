@@ -25,19 +25,17 @@ export default {
         logs.unshift(Date.now())
         mpvue.setStorageSync('logs', logs)
     }
+  },
+  log () {
+    console.log(`log at:${Date.now()}`)
   }
 }
 </script>
 
 <style>
-@import "./fonts/iconfont.css";
 page{
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  text-decoration: none;
 }
 .container {
   height: 100%;
