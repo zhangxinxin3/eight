@@ -219,8 +219,31 @@ const mutations = {
         })
         console.log("scrollToList", state.scrollToList)
     },
-    changePage(state, payload) {
-        state.pageIndex = payload
+    //数据加载的页数改变赋值
+    changePage(state,payload){
+        state.pageIndex=payload
+    },
+    //搜索列表
+    upSearch(state,payload){
+        state.searchArr = payload.data;
+        let data = state.historyArr.filter(item=>item===payload.queryWord);
+        if(data.length){
+            return;
+        }else{
+            state.historyArr.push(payload.value);
+        }
+        state.value = payload.queryWord;
+        state.typesKey = payload.queryType;
+        state.typesSort = payload.querySort;
+    },
+    //点击banner进入详情同步
+    bannerTo(state,payload){
+        state.bannerToList=payload;
+        console.log("bannerToList",state.bannerToList)
+    },
+    //banner详情点击切换同步
+    bannerItem(state,payload){
+        state.DalList=payload;
     }
 }
 
