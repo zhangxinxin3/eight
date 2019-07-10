@@ -1,8 +1,8 @@
-import { getRecommeds, getClassify } from '@/service/index'
-import { swiperImg, getRecommed, scrollTo } from '@/api/home'
+
+import { getClassify } from '@/service/index'
+import { swiperImg, getRecommed, scrollTo, bannerTo } from '@/api/home'
 
 const state = {
-    recommedList: '',
     saveItemList: [],
     cid: '',
     getclassifyList: [],
@@ -12,8 +12,45 @@ const state = {
     adOneList: [],//列表大图
     recommendList: [],//scroll横向
     scrollToList: [],//scroll加载的数据
-    pageIndex: 1
+    pageIndex: 1,
+    sortType: 1,
+    searchArr: [],//搜索列表
+    historyArr: [], //历史搜索
+    types: [{
+        title: "综合",
+        key: 0,
+        sort: 'asc'
+    }, {
+        title: "最新",
+        key: 1,
+        sort: 'asc'
+    }, {
+        title: "价格",
+        key: 2,
+        sort: 'asc'
+    }],
+    flag: false,
+    child: [{
+        title: "价格从高到低",
+        key: 2,
+        sort: 'desc'
+    }, {
+        title: "价格从低到高",
+        key: 2,
+        sort: 'asc'
+    }],
+    search: {
+        value: '',
+        typesSort: 'asc',
+        typesKey: 0, //排序
+        typesPage: 1
+    },
+    //今日推荐
+    pageIndex: 1,//页面数据加载页数
+    bannerToList: [],//banner进入详情的数据,
+    DalList: {},//banner详情点击对应数据
 }
+
 //异步改变
 const actions = {
     //今日推荐
@@ -59,34 +96,36 @@ const actions = {
         })
     },
     //为你精选scrollTo的数据
-    async scrollTo({commit,state},payload){
-        commit('changePage',payload)
-        let data=await scrollTo(payload);
-        if(state.pageIndex===1){
-            commit('scrollTo',data.result);
-        }else{
-            commit('scrollTo',[...state.scrollToList,...data.result]);
+    async scrollTo({ commit, state }, payload) {
+        commit('changePage', payload)
+        let data = await scrollTo(payload);
+        if (state.pageIndex === 1) {
+            commit('scrollTo', data.result);
+        } else {
+            commit('scrollTo', [...state.scrollToList, ...data.result]);
         }
     },
     //搜索
-    async search(store,payload){
+    async search(store, payload) {
+        console.log('payload', payload)
         let data = await searchTo(payload);
-        console.log('搜索',data)
-        if(data.res_code === 1){
-            store.commit('upSearch',{
-                data:data.result,
+        console.log('搜索', data)
+        if (data.res_code === 1) {
+            console.log('同步操作')
+            store.commit('upSearch', {
+                data: data.result,
                 payload
             })
-        }else{
-            store.commit('upSearch',{
-                data:[],
+        } else {
+            store.commit('upSearch', {
+                data: [],
                 payload
             })
         }
     },
-    async bannerTo({commit},payload){
-        let data=await bannerTo(payload);
-        commit('bannerTo',data.result)
+    async bannerTo({ commit }, payload) {
+        let data = await bannerTo(payload);
+        commit('bannerTo', data.result)
     },
 }
 //同步改变
@@ -97,7 +136,13 @@ const mutations = {
         state.saveItemList = payload.childs;
     },
     getClassify(state, payload) {
-        console.log(payload)
+        if (state.pageIndex === 1) {
+            state.getclassifyList = payload;
+        } else {
+            payload.map((item) => {
+                state.getclassifyList.push(item)
+            });
+        }
         state.getclassifyList = payload;
     },
     //swiper同步
@@ -125,30 +170,57 @@ const mutations = {
         state.scrollToList = payload;
     },
     //数据加载的页数改变赋值
-    changePage(state,payload){
-        state.pageIndex=payload
+    changePage(state, payload) {
+        state.pageIndex = payload
+    },
+    changeSortType(state, payload) {
+        state.sortType = payload
     },
     //搜索列表
-    upSearch(state,payload){
+    upSearch(state, payload) {
         state.searchArr = payload.data;
-        let data = state.historyArr.filter(item=>item===payload.queryWord);
-        if(data.length){
-            return;
-        }else{
-            state.historyArr.push(payload.value);
+        state.search.value = payload.payload.queryWord;
+        state.search.typesKey = payload.payload.queryType;
+        state.search.typesSort = payload.payload.querySort;
+        console.log('state.search', state.search)
+        if (payload.payload.queryType === 2) {
+            state.flag = !state.flag;
         }
-        state.value = payload.queryWord;
-        state.typesKey = payload.queryType;
-        state.typesSort = payload.querySort;
+        console.log("state.flag", state.flag)
+        let data = state.historyArr.filter(item => item === payload.payload.queryWord);
+        console.log('data', data)
+        if (data.length === 0) {
+            state.historyArr.push(payload.payload.queryWord);
+            console.log('state.historyArr', state.historyArr)
+            wx.setStorage({
+                key: "historyArr",
+                data: JSON.stringify(state.historyArr)
+            })
+        } else {
+            return;
+        }
     },
     //点击banner进入详情同步
-    bannerTo(state,payload){
-        state.bannerToList=payload;
-        console.log("bannerToList",state.bannerToList)
+    bannerTo(state, payload) {
+        state.bannerToList = payload;
+        console.log("bannerToList", state.bannerToList)
     },
     //banner详情点击切换同步
-    bannerItem(state,payload){
-        state.DalList=payload;
+    bannerItem(state, payload) {
+        state.DalList = payload;
+    },
+    getHis(state,payload){
+        wx.getStorage({
+            key: 'historyArr',
+            success (res) {
+              console.log('res.data',JSON.parse(res.data))
+              state.historyArr = JSON.parse(res.data);
+            }
+        })
+        console.log("scrollToList", state.scrollToList)
+    },
+    changePage(state, payload) {
+        state.pageIndex = payload
     }
 }
 

@@ -2,7 +2,7 @@
   <scroll-view class="wrap" :scroll-y="true"
   @scrolltoupper="upper" 
   @scrolltolower="lower">
-    <div class="searchBox">
+    <div class="searchBox" @click="search">
        <icon type="search" size="18"/>
        <input type="text" placeholder="搜索">
     </div> 
@@ -72,6 +72,7 @@ export default {
     }),
     //下拉加载
     lower(){
+      console.log("下拉",++this.pageIndex);
       this.scrollTo(++this.pageIndex)
     },
     //点击banner图进入详情
@@ -94,6 +95,7 @@ export default {
       url: '/pages/classify/main?arr='+arrs
       })
     }
+
   },
  computed: {
    ...mapState({

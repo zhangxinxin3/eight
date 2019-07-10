@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/main",
     "pages/classify/main",
+    "pages/shopDetail/main",
     "pages/search/main",
     "pages/bannerDal/main",
     "pages/mine/coupon/main",
@@ -15,7 +16,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "积纳有品",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
