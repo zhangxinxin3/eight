@@ -1,3 +1,4 @@
+
  import {getClassify} from '@/service/index'
  import {swiperImg,getRecommed,scrollTo,bannerTo} from '@/api/home'
 
@@ -12,6 +13,7 @@ const state={
     recommendList:[],//scroll横向
     scrollToList:[],//scroll加载的数据
     pageIndex:1,
+    sortType:1,
     searchArr:[],//搜索列表
     historyArr:[], //历史搜索
     types:[{
@@ -48,13 +50,22 @@ const state={
     bannerToList:[],//banner进入详情的数据,
     DalList:{},//banner详情点击对应数据
 }
+
 //异步改变
-const actions={
-    getClassifyList({commit},payload){
-        let obj={
-            pageIndex:payload.pageIndex,
-            cid:payload.cid,
-            sortType:payload.sortType
+const actions = {
+    //今日推荐
+    getRecommedList({ commit }, payload) {
+        let data = getRecommeds();
+        data.then(res => {
+            commit('getRecommed', res.result)
+        })
+    },
+    getClassifyList({ commit }, payload) {
+        console.log('payload', payload)
+        let obj = {
+            pageIndex: payload.pageIndex,
+            cid: payload.cid,
+            sortType: payload.sortType
         };
         let data = getClassify(obj);
         data.then(res => {
@@ -125,8 +136,14 @@ const mutations = {
         state.cid = payload.cid;
         state.saveItemList = payload.childs;
     },
-    getClassify(state, payload) {
-        console.log(payload)
+    getClassify(state,payload){
+        if(state.pageIndex===1){
+            state.getclassifyList = payload;
+        }else{
+            payload.map((item)=>{
+              state.getclassifyList.push(item)
+            });
+        }
         state.getclassifyList = payload;
     },
     //swiper同步
@@ -156,6 +173,9 @@ const mutations = {
     //数据加载的页数改变赋值
     changePage(state,payload){
         state.pageIndex=payload
+    },
+    changeSortType(state,payload){
+        state.sortType=payload
     },
     //搜索列表
     upSearch(state,payload){
@@ -198,6 +218,10 @@ const mutations = {
               state.historyArr = JSON.parse(res.data);
             }
         })
+        console.log("scrollToList", state.scrollToList)
+    },
+    changePage(state, payload) {
+        state.pageIndex = payload
     }
 }
 

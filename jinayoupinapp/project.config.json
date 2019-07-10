@@ -51,6 +51,11 @@
 			"current": 0,
 			"list": [
 				{
+					"id": -1,
+					"name": "今日推荐",
+					"pathName": "pages/classify/main"
+                },
+				{
 					"id": 0,
 					"name": "我的那一页",
 					"pathName": "pages/mine/addAddress/main",

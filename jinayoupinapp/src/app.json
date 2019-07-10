@@ -2,20 +2,21 @@
   "pages": [
     "pages/index/main",
     "pages/classify/main",
+    "pages/shopDetail/main",
     "pages/search/main",
     "pages/bannerDal/main",
-    "pages/mine/my/main",
     "pages/mine/coupon/main",
-    "pages/mine/card/main",
     "pages/mine/service/main", 
+    "pages/mine/my/main",
     "pages/mine/authenTication/main",
     "pages/mine/shippingAddress/main",
-    "pages/mine/addAddress/main"
+    "pages/mine/addAddress/main",
+    "pages/mine/card/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "积纳有品",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

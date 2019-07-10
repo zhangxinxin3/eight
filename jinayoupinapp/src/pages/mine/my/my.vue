@@ -99,10 +99,7 @@ export default {
             card:state=>state.mine.card,
             key:state=>state.mine.key,
             user:state=>state.mine.user,
-            productsList:state=>state.mine.productsList,
-            pendingDeliverNumber:state=>state.mine.pendingDeliverNumber,
-            pendingPaymentNumber:state=>state.mine.pendingPaymentNumber,
-            pendingReceivingNumber:state=>state.mine.pendingReceivingNumber
+            productsList:state=>state.mine.productsList
         })
     }
 }
