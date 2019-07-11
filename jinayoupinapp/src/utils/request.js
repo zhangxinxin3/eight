@@ -4,9 +4,9 @@ import Fly from "flyio/dist/npm/wx"
 export let fly = new Fly
 
 //设置超时
-fly.config.timeout = 10000;
+fly.config.timeout=10000;
 //设置请求基地址
-fly.config.baseURL = 'https://upapi.jinaup.com'
+fly.config.baseURL = 'https://upapi.jinaup.com/'
 // fly.config.baseURL = "http://123.206.55.50:7001/"
 // fly.config.baseURL = "http://169.254.12.68:7001/"
 // fly.config.baseURL = 'http://127.0.0.1:7001/'

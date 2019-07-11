@@ -9,11 +9,11 @@
         "pages/bannerDal/main",
         "pages/shop/shopcar/main",
         "pages/mine/coupon/main",
-        "pages/mine/service/main", 
         "pages/mine/my/main",
         "pages/mine/authenTication/main",
         "pages/mine/shippingAddress/main",
         "pages/mine/addAddress/main",
+        "pages/mine/service/main",
         "pages/mine/card/main"
   ],
   "window": {
@@ -27,34 +27,18 @@
     "backgroundColor": "#fafafa",
     "selectedColor": "#333",
     "borderStyle": "white",
-    "list": [
-      {
-        "text": "首页",
-        "pagePath": "pages/index/main",
-        "iconPath": "static/tabs/home.png",
-        "selectedIconPath": "static/tabs/home-active.png"
-      },
-      {
-        "text": "我的",
-        "pagePath": "pages/mine/my/main",
-        "iconPath": "static/tabs/orders.png",
-        "selectedIconPath": "static/tabs/orders-active.png"
-      }
-    ],
-    "items": [
-      {
-        "name": "首页",
-        "pagePath": "pages/index/main",
-        "icon": "static/tabs/home.png",
-        "activeIcon": "static/tabs/home-active.png"
-      },
-      {
-        "name": "我的",
-        "pagePath": "pages/mine/my/main",
-        "icon": "static/tabs/orders.png",
-        "activeIcon": "static/tabs/orders-active.png"
-      }
-    ],
+
+    "list": [{
+      "text": "首页",
+      "pagePath": "pages/index/main",
+      "iconPath": "static/tabs/home.png",
+      "selectedIconPath": "static/tabs/home-active.png"
+    }, {
+      "text": "我的",
+      "pagePath": "pages/mine/my/main",
+      "iconPath": "static/tabs/orders.png",
+      "selectedIconPath": "static/tabs/orders-active.png"
+    }],
     "position": "bottom"
   }
 }

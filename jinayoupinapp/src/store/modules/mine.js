@@ -43,18 +43,18 @@ const state = {
         key: 3,
         img: "/static/images/dsh.png"
     }],
-    key: 0,
-    page: 1,
-    productsList: [],
-    coupon: [{
-        title: "未使用",
-        key: 0
-    }, {
-        title: "已使用",
-        key: 1
-    }, {
-        title: "已过期",
-        key: 2
+    key:0,
+    page:1,
+    productsList:[],
+    coupon:[{
+        title:"未使用",
+        key:0
+    },{
+        title:"已使用",
+        key:1
+    },{
+        title:"已过期",
+        key:2
     }],
     state: 0,
     couponList: [],
@@ -68,14 +68,15 @@ const state = {
     newObj: {},
     invitationCode:""//邀请码
 }
+
 const actions = {
-    async getUser(store, payload) {
+    async getUser(store,payload){
         let data = await getUser();
-        if (data.res_code === 1) {
-            store.commit('getUsers', data.result)
+        if(data.res_code===1){
+            store.commit('getUsers',data.result)
         }
     },
-    async products(store, payload) {
+    async products(store,payload){
         let data = await products({
             pageIndex: store.state.page,
             orderStatus: store.state.key
@@ -89,9 +90,9 @@ const actions = {
             store.commit('getProducts', [])
         }
     },
-    async coupons(store, payload) {
+    async coupons(store,payload){
         let data = await coupons({
-            state: store.state.state
+            state:store.state.state
         })
         console.log(data)
         if (data.res_code === 1) {
@@ -248,10 +249,10 @@ const mutations = {
         })
     }
 }
-export default {
-    namespaced: true,
-    state,
-    actions,
-    mutations
 
+export default {
+    namespaced:true,
+    state,
+    mutations,
+    actions
 }

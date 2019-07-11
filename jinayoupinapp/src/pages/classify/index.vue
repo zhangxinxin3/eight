@@ -127,21 +127,18 @@ export default {
     },  
 },
   
-    created () {
-    
-    },
-    onShow(){
-        console.log('this.recommendList',this.recommendList)
-    },
-    onLoad(){
-        let arr=JSON.parse(this.$root.$mp.query.arr)
-        this.$store.commit('index/saveItem',arr[1]);
-        this.getClassifyList({
-            pageIndex: arr[0].pageIndex,
-            cid: arr[0].cid,
-            sortType: arr[0].sortType
-        });
-    }
+  created () {
+   
+  },
+  onLoad(){
+    let arr=JSON.parse(this.$root.$mp.query.arr)
+    this.$store.commit('index/saveItem',arr[1]);
+    this.getClassifyList({
+        pageIndex: arr[0].pageIndex,
+        cid: arr[0].cid,
+        sortType: arr[0].sortType
+    });
+  }
 
 }
 </script>

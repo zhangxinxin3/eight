@@ -5,7 +5,7 @@
     <div class="searchBox" @click="search">
        <icon type="search" size="18"/>
        <input type="text" placeholder="搜索">
-    </div> 
+    </div>
     <ul class="recommendList">
       <li class="active">今日推荐</li>
       <li v-for="(item,index) in recommendList" :key="index">
@@ -71,7 +71,9 @@ export default {
       scrollTo:"index/scrollTo",
       bannerTo:"index/bannerTo"
     }),
-    //下拉加载
+    upper(){
+      console.log("上拉")
+    },
     lower(){
       console.log("下拉",++this.pageIndex);
       this.scrollTo(++this.pageIndex)

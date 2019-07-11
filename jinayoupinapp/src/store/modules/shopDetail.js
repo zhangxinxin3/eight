@@ -1,7 +1,11 @@
-import { getDetail, shopDetail, pay, share } from '@/service/shopDetail'
+import { getDetail, getChoose, getAddress, getDownPic, shopDetail, pay, share  } from '@/service/shopDetail'
 
 const state = {
     getDetailList:[],
+    currentpid:'',
+    chooseList:[],
+    hintAddress:'',
+    picDownList:[],
     shopDetailList:{},
     subOrderId:'',
     minutes:15,
@@ -26,9 +30,26 @@ const mutations = {
 }
 
 const actions = {
+    //获取详情swiper图片
     async shopItem({commit,state},payload){
+        state.currentpid = payload;
         let data = await getDetail(payload);
         state.getDetailList = data.result;
+    },
+    //获取选择的颜色还是规格
+    async choose({commit,state},payload){
+        let data = await getChoose(state.currentpid);
+        state.chooseList = data.result;
+    },
+    //获取提示的内容
+    async hintContent({commit,state},payload){
+        let data = await getAddress(payload);
+        state.hintAddress = data.result;
+    },
+    //获取详情下边的图片
+    async picDown({commit,state},payload){
+        let data = await getDownPic(payload);
+        state.picDownList = data.result;
     },
     async shopDetail (store, payload){
         let data = await shopDetail({
