@@ -1,16 +1,27 @@
-import { getDetail, shopDetail, pay } from '@/service/shopDetail'
+import { getDetail, shopDetail, pay, share } from '@/service/shopDetail'
 
 const state = {
     getDetailList:[],
     shopDetailList:{},
-    subOrderId:''
+    subOrderId:'',
+    minutes:15,
+    seconds:0,
+    shareData:{}
 }
 
 const mutations = {
     upShopDetail(state,payload){
-        console.log('payload',payload);
+        // console.log('payload',payload);
         state.shopDetailList = payload;
         state.subOrderId = payload.subOrder[0].subOrderId;
+    },
+    upShare(state,payload){
+        state.shareData = payload;
+    },
+    changeTime(state,payload){
+        let { key, value } = payload;
+        state[key] = value;
+        // console.log(state.seconds,this.minutes)
     }
 }
 
@@ -34,6 +45,18 @@ const actions = {
             platform:4
         });
         console.log('支付',data)
+    },
+    //分享
+    async share(store,payload){
+        let data = await share({
+            pid:852
+        })
+        console.log('分享',data)
+        if(data.res_code === 1){
+            store.commit('upShare',data.result)
+        }else{
+            store.commit('upShare',{})
+        }
     }
 }
 

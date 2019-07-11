@@ -103,7 +103,7 @@ export default {
     },
     //点击上拉加载列表每一项进入购买页
     shopping(pid){
-      wx.redirectTo({
+      wx.navigateTo({
         url:"/pages/shop/shopDetail/main?pid="+pid
       })
     }

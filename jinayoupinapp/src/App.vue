@@ -25,6 +25,11 @@ export default {
         logs.unshift(Date.now())
         mpvue.setStorageSync('logs', logs)
     }
+    wx.login({
+        success:res=>{
+            console.log('res',res)
+        }
+    })
   }
 }
 </script>

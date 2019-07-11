@@ -11,3 +11,8 @@ export let  shopDetail = params =>{
 export let pay = params =>{
     return request.post('/api/open/order/place/order/1.0.0',params)
 }
+
+export let share = params =>{
+    console.log('params',params)
+    return request.post('/api/open/product/info/1.0.0',params)
+}

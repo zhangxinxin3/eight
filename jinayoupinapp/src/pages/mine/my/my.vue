@@ -15,9 +15,9 @@
     </div>
     <div class="main">
       <div class="card">
-        <p :key="1" @click="cards(0)">我的订单</p>
+        <p :key="0" @click="cards(0)">我的订单</p>
         <div class="cardContent">
-          <div v-for="item in card" :key="item.key" @click="cards(item.key)">
+          <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key!==0">
             <text v-if="item.Number!==0">{{item.Number}}</text>
             <image :src="item.img" alt />
             <p>{{item.title}}</p>
@@ -262,38 +262,9 @@ export default {
           top: -10rpx;
           right: 60rpx;
         }
-        .cardContent{
-            width:100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            >div{
-                flex:1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-around;
-                position: relative;
-                text:nth-child(1){
-                    background:orange;
-                    color:#fff;
-                    border-radius: 100%;
-                    padding:0 10rpx;
-                    box-sizing: border-box;
-                    position: absolute;
-                    top:-10rpx;
-                    right:60rpx;
-                }
-                image{
-                    width:80rpx;
-                    height:80rpx;
-                }
-                p{
-                    font-size:24rpx;
-                    color:#70757d;
-                    padding:0;
-                }
-            }
+        image{
+            width:80rpx;
+            height:80rpx;
         }
         p {
           font-size: 24rpx;
