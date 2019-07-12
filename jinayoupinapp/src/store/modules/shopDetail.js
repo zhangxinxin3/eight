@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { getDetail,getChoose, getAddress, getDownPic, shopDetail, pay  } from '@/service/shopDetail'
-=======
-import { getDetail,getChoose, getAddress, getDownPic} from '@/service/shopDetail'
->>>>>>> njx
 
 const state = {
     getDetailList:[],
@@ -10,13 +6,10 @@ const state = {
     chooseList:[],
     hintAddress:'',
     picDownList:[],
-<<<<<<< HEAD
     getDetailList:[],
     shopDetailList:{},
-    subOrderId:''
-=======
+    subOrderId:'',
     maskList:[]
->>>>>>> njx
 }
 
 const mutations = {
@@ -50,7 +43,6 @@ const actions = {
         let data = await getDownPic(payload);
         state.picDownList = data.result;
     },
-<<<<<<< HEAD
     async shopDetail (store, payload){
         let data = await shopDetail({
             orderChannel:4,
@@ -67,9 +59,6 @@ const actions = {
         });
         console.log('支付',data)
     }
-=======
-
->>>>>>> njx
 }
 
 export default {
