@@ -297,11 +297,11 @@ to {height: 0;}
   width: 100%;
   height: 40px;
   background: #eee;
-  position: absolute;
   font-size: 16px;
-  bottom: 0px;
-  left: 0px;
   display: flex;
+  position:fixed;
+  left:0;
+  bottom:0;
   line-height: 40px;
   .left,
   .right {
