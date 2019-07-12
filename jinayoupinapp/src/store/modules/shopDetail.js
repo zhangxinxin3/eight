@@ -1,4 +1,4 @@
-import { getDetail, getChoose, getAddress, getDownPic, shopDetail, pay, share  } from '@/service/shopDetail'
+import { getDetail, getChoose, getAddress, getDownPic, shopDetail, getSure, pay, share  } from '@/service/shopDetail'
 
 const state = {
     getDetailList:[],
@@ -8,7 +8,9 @@ const state = {
     picDownList:[],
     shopDetailList:{},
     subOrderId:'',
-    shareData:{}
+    maskList:[],
+    shareData:{},
+    getKuangList:[]//获取弹框的值
 }
 
 const mutations = {
@@ -45,6 +47,11 @@ const actions = {
     async picDown({commit,state},payload){
         let data = await getDownPic(payload);
         state.picDownList = data.result;
+    },
+    //获取弹框的值
+    async getKuang({commit,state},payload){
+        let data = await getSure(payload);
+        state.getKuangList = data.result;
     },
     async shopDetail (store, payload){
         let data = await shopDetail({
