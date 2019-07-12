@@ -44,43 +44,44 @@
         </div>
         
         <div class="mask" v-if="show">
-            <div class="shop-con">
+            <div :class="show?'addTranslate':'reduceTranslate'">
 
               <div class="center">
                 <div class="shop-title">
                     <div class="guige">
-                        <span>颜色</span>
-                        <span>尺码</span>
+                        <block v-for="(item,index) in chooseList" :key="index">
+                            <span>{{item.aname}}</span>
+                        </block>
                     </div>
                     <div class="close" @click="close">X</div>
                 </div>
                 <div class="shop-pic">
-                  <img src="" alt="">
+                  <img :src="getDetailList.mainImgUrl" alt="">
                   <div class="shop-price">
-                    <h3>￥149</h3>
-                    <h4>库存：</h4>
+                    <h3>￥{{getDetailList.salesPrice}}</h3>
+                    <h4>库存：{{getDetailList.supplierProductSkuVoList[0].store}}</h4>
                   </div>
                 </div>
-                <div class="color">颜色</div>
-                <div class="colorList">
-                  <span>黑/he</span>
-                </div>
-                <div class="size">尺码</div>
-                <div class="sizeList">
-                  <span>L</span>
-                  <span>M</span>
+                <div class="typeList" v-for="(item,index) in chooseList" :key="index">
+                    <div class="color">{{item.aname}}</div>
+                    <div class="colorList">
+                        <block v-for="(ite,ind) in item.attributeValueRelationVoList" :key="ind">
+                            <span>{{ite.vname}}</span>
+                        </block>
+                    </div>
                 </div>
                 <div class="num">
                   <span class="num-text">数量</span>
-                  <div class="btn">
-                      <!-- <span>-</span>
-                      <input type="text" value="0">
-                      <span>+</span> -->
+                  <div class="num-btn">
+                      <span @click="reduce">-</span>
+                      <input type="text" :value="value">
+                      <span @click="add">+</span>
                   </div>
                 </div>
               </div> 
             <div class="sure">确定</div>   
-        </div></div>
+        </div>
+        </div>
         
     </div>
     
@@ -92,7 +93,8 @@ export default {
   data() {
     return {
       current: 1,
-      show: false
+      show: false,
+      value:1
     };
   },
   computed: {
@@ -101,7 +103,7 @@ export default {
       getDetailList: state => state.shopDetail.getDetailList, //获取swiper的图片
       chooseList: state => state.shopDetail.chooseList, //选择是默认还是颜色规格
       hintAddress: state => state.shopDetail.hintAddress, //获取偏远地区的地址
-      picDownList: state => state.shopDetail.picDownList //获取下边的图片
+      picDownList: state => state.shopDetail.picDownList, //获取下边的图片
     })
   },
 
@@ -110,20 +112,31 @@ export default {
       choose: "shopDetail/choose", //选择是默认还是颜色规格
       //获取偏远地区的地址
       picDown: "shopDetail/picDown", //获取下边的图片
-      hintContent: "shopDetail/hintContent" //获取提示内容
+      hintContent: "shopDetail/hintContent",//获取提示内容
     }),
     changePagination(e) {
       this.current = e.mp.detail.current + 1;
     },
     choice() {
       //点击出现弹框
-      this.show = !this.show;
+      this.show = true;
     },
     close(){
-        this.show = !this.show;
+      this.show = false;
+        
+    },
+    reduce(){
+        this.value--;
+      if(this.value<0){
+          this.value = 0
+      }
+    },
+    add(){
+      this.value++;
     }
   },
-
+  created(){
+  },
   onShow() {
     wx.setNavigationBarTitle({
       title: "商品详情"
@@ -140,6 +153,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@-webkit-keyframes addTranslate
+{
+from {height: 0;}
+to {height: 500px;}
+}
+@-webkit-keyframes reduceTranslate
+{
+from {height: 500px;}
+to {height: 0;}
+}
 .wrap {
   width: 100%;
   height: 100%;
@@ -272,14 +295,14 @@ export default {
 }
 .btn {
   width: 100%;
-  height: 50px;
+  height: 40px;
   background: #eee;
-  position: fixed;
+  position: absolute;
   font-size: 16px;
   bottom: 0px;
   left: 0px;
   display: flex;
-  line-height: 50px;
+  line-height: 40px;
   .left,
   .right {
     flex: 1;
@@ -297,16 +320,9 @@ export default {
   left: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.5);
-  .shop-con{
-    width: 100%;
-    height: 254px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    background: #fff;
     .center {
       width: 90%;
-      height: 300px;
+      height:400px;
       margin: 0 auto;
       .shop-title {
         width: 100%;
@@ -314,8 +330,11 @@ export default {
         line-height: 30px;
         .guige {
           float: left;
-          padding: 0px 10px;
           box-sizing: border-box;
+          span{
+              padding:0px 5px;
+              margin:0px 5px;
+          }
         }
         .close {
           float: right;
@@ -329,12 +348,16 @@ export default {
         display: flex;
         align-items: center;
         img {
-          width: 68px;
-          height: 68px;
-          background: red;
+          width: 65px;
+          height: 65px;
         }
         .shop-price {
+            margin-left:10px;
         }
+      }
+      .typeList{
+          width:100%;
+          margin:10px 0px;
       }
       .color {
         width: 100%;
@@ -342,45 +365,50 @@ export default {
         line-height: 24px;
       }
       .colorList {
+        width:100%;
         display: flex;
-        justify-content: space-around;
+        margin:5px 0px;
         span {
           display: inline-block;
           background: #33d6c5;
           color: #fff;
-          font-size: 14px;
-          width: 60px;
+          font-size: 12px;
           height: 20px;
           line-height: 20px;
           text-align: center;
-        }
-      }
-      .size {
-        width: 100%;
-        height: 24px;
-        line-height: 24px;
-      }
-      .sizeList {
-        display: flex;
-        justify-content: space-around;
-        span {
-          display: inline-block;
-          background: #33d6c5;
-          color: #fff;
-          font-size: 14px;
-          width: 40px;
-          height: 20px;
-          line-height: 20px;
-          text-align: center;
+          padding:0px 3px;
+          margin:0px 10px;
+          border-radius:3px;
         }
       }
       .num {
         width: 100%;
-        .num-text {
-          float: left;
+        height:24px;
+        margin-top:5px;
+        .num-text{
+          float:left;
         }
-        .button {
-          float: right;
+        .num-btn{
+          float:right;
+          display:flex;
+          span{
+              display: inline-block;
+              width:22px;
+              height:22px;
+              border:1px solid #ccc;
+              text-align:center;
+              line-height:22px;
+              font-size:14px;
+          }
+          input{
+              width:24px;
+              height:22px;
+              border:1px solid #ccc;
+              text-align:center;
+              line-height:22px;
+              font-size:14px;
+
+          }
         }
       }
       
@@ -390,12 +418,31 @@ export default {
         left: 0;
         bottom: 0;
         width: 100%;
-        height: 46px;
-        line-height: 46px;
+        height: 40px;
+        line-height: 40px;
         text-align: center;
         background: linear-gradient(217deg, #f86367, #fb2579);
         border-radius: 10px;
+        color:#fff;
+        font-size:18px;
       }
+
+  .addTranslate{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    animation: addTranslate 3s;
+  }
+  .reduceTranslate{
+    width: 100%;
+    height: 254px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    animation: reduceTranslate 3s;  
   }
 }
 </style>

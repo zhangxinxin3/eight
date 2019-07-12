@@ -1,11 +1,12 @@
-import { getDetail,getChoose, getAddress, getDownPic } from '@/service/shopDetail'
+import { getDetail,getChoose, getAddress, getDownPic} from '@/service/shopDetail'
 
 const state = {
     getDetailList:[],
     currentpid:'',
     chooseList:[],
     hintAddress:'',
-    picDownList:[]
+    picDownList:[],
+    maskList:[]
 }
 
 const mutations = {
@@ -18,6 +19,7 @@ const actions = {
         state.currentpid = payload;
         let data = await getDetail(payload);
         state.getDetailList = data.result;
+        console.log('getDetailList',getDetailList)
     },
     //获取选择的颜色还是规格
     async choose({commit,state},payload){
@@ -33,7 +35,8 @@ const actions = {
     async picDown({commit,state},payload){
         let data = await getDownPic(payload);
         state.picDownList = data.result;
-    }
+    },
+
 }
 
 export default {
