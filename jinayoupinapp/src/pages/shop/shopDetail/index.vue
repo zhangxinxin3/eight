@@ -87,7 +87,6 @@
             <div class="sure" @click="sure">确定</div>   
         </div>
         </div>
-        
     </div>
     
 </template>
@@ -154,18 +153,15 @@ export default {
     },
     sure(){
         //点击确定 弹框消失
-      this.show = false;
-      //进行跳转页面  做本地存储
-      wx.navigateTo({
-          url:
-            "/pages/shop/shopcar/main?pid=" +
-            this.getDetailList.pid +
-            "&" +
-            "skuKey=" +
-            this.getKuangList.skuKey +
-            "&" +
-            "buyNum=" +
-            this.value
+        this.show = false;
+        //进行跳转页面  做本地存储
+        this.$store.commit('shopDetail/save',{
+            pid:this.getDetailList.pid,
+            skuKey:this.getKuangList.skuKey,
+            buyNum:this.value
+        })
+        wx.navigateTo({
+            url:"/pages/shop/shopcar/main"
         });
     },
     buy(){
@@ -184,11 +180,11 @@ export default {
       })
     },
     //分享
-   share(){
-     wx.navigateTo({
-         url:"/pages/shop/canvas/main?pid=" + this.getDetailList.pid
-     })
-   },
+    share(){
+        wx.navigateTo({
+            url:"/pages/shop/canvas/main"
+        })
+    },
   },
   
   created(){
@@ -205,7 +201,8 @@ export default {
       userIdentity: this.getDetailList.userIdentity
     });
   },
-  onLoad(){
+  onLoad(options){
+      console.log(options)
     this.activeCurrent = 1;
     this.$set(this.Arrays, index, i);
     this.Arrays = [];

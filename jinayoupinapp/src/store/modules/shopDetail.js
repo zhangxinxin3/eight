@@ -10,7 +10,8 @@ const state = {
     subOrderId:'',
     maskList:[],
     shareData:{},
-    getKuangList:[]//获取弹框的值
+    getKuangList:[], //获取弹框的值
+    shopcar:{}
 }
 
 const mutations = {
@@ -22,6 +23,9 @@ const mutations = {
     },
     upShare(state,payload){
         state.shareData = payload;
+    },
+    save(state,payload){
+        state.shopcar = payload;
     }
 }
 

@@ -17,7 +17,7 @@
             </view>
         </view>
         <view class="comMain">
-            <view class="comWrap" v-for="(item,index) in searchArr" :key="index">
+            <view class="comWrap" v-for="(item,index) in searchArr" :key="index" @click="detail(item)">
                 <image :src="item.mainImgUrl" alt="" />
                 <text>{{item.title}}</text>
                 <view>
@@ -64,6 +64,12 @@ export default {
                 querySort:sort,
                 pageIndex:this.search.typesPage
             })
+        },
+        detail(item){
+            console.log(item)
+            // wx.navigateTo({
+            //     url:'/pages/shop/shopDetail/main?pid'=
+            // })
         }
     }
 }
