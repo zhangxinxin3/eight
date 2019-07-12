@@ -96,70 +96,36 @@ export default {
                 url:"/pages/mine/authenTication/main"
             })
         },
-    //复制
-    textPaste() {
-      wx.showToast({
-        title: "复制成功",
-        icon: "none"
-      });
-      wx.setClipboardData({
-        data: this.user.inviteCode,
-        success: res => {
-          wx.getClipboardData({
-            success: res => {
-              console.log(res.data);
-              this.$store.commit("mine/saveInvitationCode", {
-                invitationCode: res.data
-              });
-            }
-          });
+        //复制
+        textPaste() {
+            wx.showToast({
+                title: "复制成功",
+                icon: "none"
+            });
+            wx.setClipboardData({
+                data: this.user.inviteCode,
+                success: res => {
+                wx.getClipboardData({
+                    success: res => {
+                    console.log(res.data);
+                    this.$store.commit("mine/saveInvitationCode", {
+                        invitationCode: res.data
+                    });
+                    }
+                });
+                }
+            });
         }
-      });
     },
-    //订单
-    cards(key) {
-      this.changeKey(key);
-      wx.redirectTo({
-        url: "/pages/mine/card/main"
-      });
-    },
-    //优惠券
-    coupon() {
-      wx.redirectTo({
-        url: "/pages/mine/coupon/main"
-      });
-    },
-    //添加地址
-    jumpAddress() {
-      wx.redirectTo({
-        url: "/pages/mine/shippingAddress/main"
-      });
-    },
-    //客服
-    service() {
-      wx.redirectTo({
-        url: "/pages/mine/service/main"
-      });
-    },
-    //实名认证
-    authentication() {
-      wx.redirectTo({
-        url: "/pages/mine/authenTication/main"
-      });
+    computed: {
+        ...mapState({
+            card: state => state.mine.card,
+            key: state => state.mine.key,
+            user: state => state.mine.user,
+            productsList: state => state.mine.productsList,
+            invitationCode: state => state.mine.invitationCode
+        })
     }
-  },
-  computed: {
-    ...mapState({
-      card: state => state.mine.card,
-      key: state => state.mine.key,
-      user: state => state.mine.user,
-      productsList: state => state.mine.productsList,
-      pendingDeliverNumber: state => state.mine.pendingDeliverNumber,
-      pendingPaymentNumber: state => state.mine.pendingPaymentNumber,
-      pendingReceivingNumber: state => state.mine.pendingReceivingNumber,
-      invitationCode: state => state.mine.invitationCode
-    })
-  }
 };
 </script>
 

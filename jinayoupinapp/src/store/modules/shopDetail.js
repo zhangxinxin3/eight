@@ -8,24 +8,17 @@ const state = {
     picDownList:[],
     shopDetailList:{},
     subOrderId:'',
-    minutes:15,
-    seconds:0,
     shareData:{}
 }
 
 const mutations = {
     upShopDetail(state,payload){
-        // console.log('payload',payload);
+        console.log('payload',payload);
         state.shopDetailList = payload;
         state.subOrderId = payload.subOrder[0].subOrderId;
     },
     upShare(state,payload){
         state.shareData = payload;
-    },
-    changeTime(state,payload){
-        let { key, value } = payload;
-        state[key] = value;
-        // console.log(state.seconds,this.minutes)
     }
 }
 

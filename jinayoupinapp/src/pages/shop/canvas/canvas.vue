@@ -4,7 +4,7 @@
         <view class="price">【在售价】{{shareData.supplyPrice}}</view>
         <view class="main">
             <view class="canvas">
-                <canvas class="myCanvas" style="width:290rpx;height:346rpx;">
+                <canvas canvas-id="myCanvas" id="myCanvas" style="width:290rpx;height:346rpx;">
                 </canvas>
             </view>
             <view class="project">
@@ -12,7 +12,6 @@
                 <image src="/static/images/true2.png" alt="" />
             </view>
         </view>
-        
         <view class="share">
             <view class="share-item">
                 <image src="/static/images/6.png" alt="" />
@@ -36,11 +35,17 @@ export default {
     },
     computed:{
         ...mapState({
-            shareData:state=>state.shopDetail.shareData
+            shareData:state=>state.shopDetail.shareData,
+            pid:state=>state.mine.pid
         })
     },
     onShow(){
         this.share();
+        var context = wx.createCanvasContext('myCanvas');
+        console.log('context',context);
+        // let img = new Image();
+        // img.src=;
+        context.drawImage("http://p3.so.qhimgs1.com/sdr/400__/t0190b0f8465f93d543.png",100,100,100,100);
     }
 }
 </script>
@@ -65,6 +70,8 @@ export default {
         flex:1;
         display: flex;
         justify-content: space-around;
+        padding:30rpx;
+        box-sizing: border-box;
         .canvas{
             flex:1;
             height:100%;

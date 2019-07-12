@@ -30,11 +30,13 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 export default {
+    data(){
+        return {
+            minutes:15,
+            seconds:0
+        }
+    },
     computed:{
-        ...mapState({
-            minutes:state=>state.shopDetail.minutes,
-            seconds:state=>state.shopDetail.seconds
-        }),
         second(){
             return this.num(this.seconds)
         },
@@ -43,37 +45,22 @@ export default {
         }
     },
     methods:{
-        ...mapMutations({
-            changeTime:'shopDetail/changeTime'
-        }),
         num(n) {
             return n < 10 ? '0' + n : '' + n
         },
         timer () {
             var _this = this;
-            var time = setInterval(()=>{
+            let time = setInterval(()=>{
                 if (_this.seconds === 0 && _this.minutes !== 0) {
-                    _this.changeTime({
-                        key:'seconds',
-                        value:59
-                    })
-                    _this.changeTime({
-                        key:'minutes',
-                        value:--_this.minutes
-                    })
+                    this.seconds = 59;
+                    this.minutes -= 1;
                 } else if (_this.minutes === 0 && _this.seconds === 0) {
-                    _this.changeTime({
-                        key:'seconds',
-                        value:0
-                    })
+                    this.seconds = 0;
                     clearInterval(time)
                 } else {
-                     _this.changeTime({
-                        key:'seconds',
-                        value:--_this.seconds
-                    })
+                    this.seconds -= 1;
                 }
-            }, 1000)
+            },1000)
         }
     },
     mounted() {
