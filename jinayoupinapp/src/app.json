@@ -1,6 +1,5 @@
 {
   "pages": [
-        "pages/shop/canvas/main",
         "pages/index/main",
         "pages/classify/main",
         "pages/pay/main",
@@ -14,7 +13,8 @@
         "pages/mine/shippingAddress/main",
         "pages/mine/addAddress/main",
         "pages/mine/service/main",
-        "pages/mine/card/main"
+        "pages/mine/card/main",
+        "pages/shop/canvas/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

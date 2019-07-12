@@ -39,8 +39,8 @@
         </div>
         
         <div class="btn">
-            <div class="left">分享赚{{getDetailList.earnMoney}}</div>
-            <div class="right">立即购买</div>
+            <div class="left" @click="share">分享赚{{getDetailList.earnMoney}}</div>
+            <div class="right" @click="buy">立即购买</div>
         </div>
         
         <div class="mask" v-if="show">
@@ -66,7 +66,12 @@
                     <div class="color">{{item.aname}}</div>
                     <div class="colorList">
                         <block v-for="(ite,ind) in item.attributeValueRelationVoList" :key="ind">
-                            <span>{{ite.vname}}</span>
+                            <span 
+                            :class="{Gaol:Arrays[index]===ind}"
+                            @click="Gaol(ind,index,ite.pid,ite.vid)"
+                            >
+                            {{ite.vname}}
+                            </span>
                         </block>
                     </div>
                 </div>
@@ -79,7 +84,7 @@
                   </div>
                 </div>
               </div> 
-            <div class="sure">确定</div>   
+            <div class="sure" @click="sure">确定</div>   
         </div>
         </div>
         
@@ -94,7 +99,10 @@ export default {
     return {
       current: 1,
       show: false,
-      value:1
+      value:1,
+      Arrays:[],
+      activeCurrent:1,
+      Indexs:[]
     };
   },
   computed: {
@@ -104,6 +112,7 @@ export default {
       chooseList: state => state.shopDetail.chooseList, //选择是默认还是颜色规格
       hintAddress: state => state.shopDetail.hintAddress, //获取偏远地区的地址
       picDownList: state => state.shopDetail.picDownList, //获取下边的图片
+      getKuangList:state =>state.shopDetail.getKuangList
     })
   },
 
@@ -113,6 +122,7 @@ export default {
       //获取偏远地区的地址
       picDown: "shopDetail/picDown", //获取下边的图片
       hintContent: "shopDetail/hintContent",//获取提示内容
+      getKuang:'shopDetail/getKuang'//获取弹框的内容
     }),
     changePagination(e) {
       this.current = e.mp.detail.current + 1;
@@ -120,6 +130,14 @@ export default {
     choice() {
       //点击出现弹框
       this.show = true;
+      let ArrVid=this.chooseList.map((item,index)=>{
+          return this.chooseList[index].attributeValueRelationVoList[this.Arrays[index]].vid 
+      })
+      let pid = this.chooseList[0].pid;
+      this.getKuang({
+        pid,
+        vids: JSON.stringify(ArrVid)
+      });
     },
     close(){
       this.show = false;
@@ -133,8 +151,46 @@ export default {
     },
     add(){
       this.value++;
-    }
+    },
+    sure(){
+        //点击确定 弹框消失
+      this.show = false;
+      //进行跳转页面  做本地存储
+      wx.navigateTo({
+          url:
+            "/pages/shop/shopcar/main?pid=" +
+            this.getDetailList.pid +
+            "&" +
+            "skuKey=" +
+            this.getKuangList.skuKey +
+            "&" +
+            "buyNum=" +
+            this.value
+        });
+    },
+    buy(){
+        //点击购买判断
+        this.show = true;
+    },
+    Gaol(i, index, pid){
+    //  console.log(i,index,pid);
+      console.log(this.$set(this.Arrays, index, i));
+      let  ArrVid=this.chooseList.map((item,index)=>{
+          return this.chooseList[index].attributeValueRelationVoList[this.Arrays[index]].vid 
+      });
+      this.getKuang({
+         pid,
+         vids:JSON.stringify(ArrVid)
+      })
+    },
+    //分享
+   share(){
+     wx.navigateTo({
+         url:"/pages/shop/canvas/main?pid=" + this.getDetailList.pid
+     })
+   },
   },
+  
   created(){
   },
   onShow() {
@@ -148,6 +204,15 @@ export default {
       basePid: this.getDetailList.basePid,
       userIdentity: this.getDetailList.userIdentity
     });
+  },
+  onLoad(){
+    this.activeCurrent = 1;
+    this.$set(this.Arrays, index, i);
+    this.Arrays = [];
+    for (var i = 0; i < this.chooseList.length; i++) {
+      this.Arrays.push(0);
+      this.Indexs.push(i)
+    }
   }
 };
 </script>
@@ -156,11 +221,11 @@ export default {
 @-webkit-keyframes addTranslate
 {
 from {height: 0;}
-to {height: 500px;}
+to {height: 450px;}
 }
 @-webkit-keyframes reduceTranslate
 {
-from {height: 500px;}
+from {height: 450px;}
 to {height: 0;}
 }
 .wrap {
@@ -370,8 +435,6 @@ to {height: 0;}
         margin:5px 0px;
         span {
           display: inline-block;
-          background: #33d6c5;
-          color: #fff;
           font-size: 12px;
           height: 20px;
           line-height: 20px;
@@ -443,6 +506,10 @@ to {height: 0;}
     bottom: 0;
     background: #fff;
     animation: reduceTranslate 3s;  
+  }
+  .Gaol {
+    background: #33d6c5;
+    color: #fff;
   }
 }
 </style>
