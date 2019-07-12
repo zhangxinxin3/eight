@@ -17,11 +17,14 @@
       <div class="card">
         <p :key="0" @click="cards(0)">我的订单</p>
         <div class="cardContent">
-          <div v-for="item in card" :key="item.key" @click="cards(item.key)" v-if="item.key!==0">
-            <text v-if="item.Number!==0">{{item.Number}}</text>
-            <image :src="item.img" alt />
-            <p>{{item.title}}</p>
-          </div>
+            <div v-for="item in card" 
+            :key="item.key" 
+            @click="cards(item.key)" 
+            v-if="item.key!==0">
+                <text v-if="item.Number!==0">{{item.Number}}</text>
+                <image :src="item.img" alt />
+                <p>{{item.title}}</p>
+            </div>
         </div>
       </div>
       <div class="list">

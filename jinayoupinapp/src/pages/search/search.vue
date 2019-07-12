@@ -15,7 +15,7 @@
                 <view class="mainHis" v-if="hidden">
                     <view class="mainTop">
                         <text>历史搜索</text>
-                        <image src="/static/images/del.png" alt="" />
+                        <image src="/static/images/del.png" alt="" @click="remove" />
                     </view>
                     <view class="mains">
                         <text v-for="(item,index) in historyArr" :key="index">{{item}}</text>
@@ -78,6 +78,12 @@ export default {
                 querySort:this.search.typesSort,
                 pageIndex:++this.search.typesPage
             })
+        },
+        remove(){
+            wx.setStorage({
+                key: "historyArr"
+            })
+            this.$store.commit('index/getHis')
         }
     },
     onShow(){

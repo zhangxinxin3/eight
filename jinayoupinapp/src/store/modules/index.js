@@ -226,8 +226,13 @@ const mutations = {
         wx.getStorage({
             key: 'historyArr',
             success (res) {
-              console.log('res.data',JSON.parse(res.data))
-              state.historyArr = JSON.parse(res.data);
+                if(res.data){
+                    console.log('res.data',res)
+                    console.log('res.data',JSON.parse(res.data))
+                    state.historyArr = JSON.parse(res.data);    
+                }else{
+                    state.historyArr = [];  
+                }
             }
         })
         console.log("scrollToList", state.scrollToList)

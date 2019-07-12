@@ -16,6 +16,7 @@ const mutations = {
         console.log('payload',payload);
         state.shopDetailList = payload;
         state.subOrderId = payload.subOrder[0].subOrderId;
+        console.log('state.shopDetailList'.state.shopDetailList)
     },
     upShare(state,payload){
         state.shareData = payload;
@@ -28,6 +29,7 @@ const actions = {
         state.currentpid = payload;
         let data = await getDetail(payload);
         state.getDetailList = data.result;
+        console.log('state.getDetailList'.state.getDetailList)
     },
     //获取选择的颜色还是规格
     async choose({commit,state},payload){
@@ -65,12 +67,13 @@ const actions = {
         let data = await share({
             pid:852
         })
-        console.log('分享',data)
+        console.log('分享',data.result)
         if(data.res_code === 1){
             store.commit('upShare',data.result)
         }else{
             store.commit('upShare',{})
         }
+        return data.result;
     }
 }
 
