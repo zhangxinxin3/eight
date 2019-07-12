@@ -78,15 +78,21 @@ const actions = {
     },
     async products(store, payload) {
         let data = await products({
-            pageIndex: store.state.page,
+            pageIndex: payload.page,
             orderStatus: store.state.key
         });
         console.log('订单', data)
         if (data.res_code === 1) {
-            store.commit('getProducts', data.result)
+            store.commit('getProducts', {
+                data:data.result,
+                page:payload.page
+            })
             // return 
         } else {
-            store.commit('getProducts', [])
+            store.commit('getProducts',  {
+                data:data.result,
+                page:payload.page
+            })
         }
     },
     async coupons(store, payload) {
@@ -230,7 +236,14 @@ const mutations = {
         state.user = payload
     },
     getProducts(state, payload) {
-        state.productsList = payload;
+        state.page = payload.page;
+        if(state.page===1){
+            state.productsList = payload.data;
+        }else{
+            payload.data.map(item=>{
+                state.productsList.push(item)
+            })
+        }
     },
     getCoupons(state, payload) {
         state.couponList = payload;

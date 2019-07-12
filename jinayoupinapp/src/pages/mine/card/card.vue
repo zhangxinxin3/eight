@@ -51,7 +51,8 @@ export default {
         ...mapState({
             card:state=>state.mine.card,
             key:state=>state.mine.key,
-            productsList:state=>state.mine.productsList
+            productsList:state=>state.mine.productsList,
+            page:state=>state.mine.page
         })
     },
     methods:{
@@ -84,7 +85,9 @@ export default {
                                 icon: 'none',
                                 duration: 2000
                             })
-                            this.products();
+                            this.products({
+                                page:1
+                            });
                         }
                     } else if (res.cancel) {
                         console.log('用户点击取消')
@@ -98,6 +101,11 @@ export default {
                 url:"/pages/pay/main"
             })
         }
+    },
+    onReachBottom(){
+        this.products({
+            page:++this.page
+        });
     }
 }
 </script>

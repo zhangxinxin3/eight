@@ -21,7 +21,7 @@ export default {
        ...mapState({
          getDetailList:state=>state.shopDetail.getDetailList
        })
-   },
+    },
     onShow(){
        wx.setNavigationBarTitle({
          title: '商品详情'
