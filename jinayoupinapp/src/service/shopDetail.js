@@ -16,6 +16,10 @@ export let getAddress = params =>{
 export let getDownPic = params =>{
     return request.post('/api/open/product/detailPicture/1.0.0'+params)
 }
+// //获取弹框的值
+// export let getMask = params=>{
+//     return request.post('/api/open/product/sku/query/1',params);
+// }
 //未查询到
 export let noneFind = params =>{
     return request.post('/api/open/product/coupon/productCouponList/1.0.0?pid='+'50408'+'&bid'+'115'+'&uid'+'150'+'&usiid')
