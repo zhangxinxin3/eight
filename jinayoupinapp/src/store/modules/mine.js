@@ -66,7 +66,8 @@ const state = {
         idReverseImgUrl: ""
     },
     newObj: {},
-    invitationCode:""//邀请码
+    invitationCode:"",//邀请码
+    pid:0
 }
 const actions = {
     async getUser(store, payload) {
@@ -80,7 +81,6 @@ const actions = {
             pageIndex: store.state.page,
             orderStatus: store.state.key
         });
-
         console.log('订单', data)
         if (data.res_code === 1) {
             store.commit('getProducts', data.result)
@@ -119,9 +119,8 @@ const actions = {
     async cacel(store,payload){
         console.log(payload)
         let data = await cacel(payload);
-        console.log('取消订单',data)
-        console.log('数量', data)
-        store.commit('upNum', data.result)
+        console.log('取消订单',data);
+        return data;
     },
     //实名
     async authenTication(store, payload) {
@@ -246,6 +245,9 @@ const mutations = {
                 item.Number = payload.pendingReceivingNumber;
             }
         })
+    },
+    changePid(state,payload){
+        state.pid = payload
     }
 }
 export default {

@@ -22,7 +22,7 @@ export default {
        shopDetail(item){
          this.$store.dispatch("shopDetail/shopItem",item.pid);
          wx.navigateTo({
-             url:"/pages/shopDetail/main"
+             url:"/pages/shop/shopDetail/main"
          })
        }
    }
