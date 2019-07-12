@@ -1,32 +1,35 @@
 <template>
     <view class="wrapper">
-        <view class="header">
-            <div class="search">
-                <icon type="search" size="16" />
-                <input confirm-type="search" 
-                placeholder="搜索" 
-                v-model="value" 
-                @confirm="confirm($event)" />
-            </div>
-            <text>取消</text>
-        </view>
-        <view class="main">
-            <view class="mainHis" v-if="hidden">
-                <view class="mainTop">
-                    <text>历史搜索</text>
-                    <image src="/static/images/del.png" alt="" />
-                </view>
-                <view class="mains">
-                    <text v-for="(item,index) in historyArr" :key="index">{{item}}</text>
-                </view>    
+        <scroll-view class="wrap" scroll-y="true" @scroll="scroll" @scrolltolower="lower">
+            <view class="header">
+                <div class="search">
+                    <icon type="search" size="16" />
+                    <input confirm-type="search" 
+                    placeholder="搜索" 
+                    v-model="value" 
+                    @confirm="confirm($event)" />
+                </div>
+                <text>取消</text>
             </view>
-            <SearchList v-else></SearchList>
-        </view>
+            <view class="main">
+                <view class="mainHis" v-if="hidden">
+                    <view class="mainTop">
+                        <text>历史搜索</text>
+                        <image src="/static/images/del.png" alt="" />
+                    </view>
+                    <view class="mains">
+                        <text v-for="(item,index) in historyArr" :key="index">{{item}}</text>
+                    </view>    
+                </view>
+                <SearchList v-else></SearchList>
+            </view>    
+        </scroll-view>
+        
     </view>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import SearchList from '@/components/searchList'
 export default {
     data(){
@@ -48,6 +51,9 @@ export default {
         ...mapActions({
             getSearch:'index/search'
         }),
+        ...mapMutations({
+            changeScroll:'index/changeScroll'
+        }),
         confirm(e){
             this.hidden = false;
             this.getSearch({
@@ -55,6 +61,22 @@ export default {
                 queryType:this.search.typesKey,
                 querySort:this.search.typesSort,
                 pageIndex:this.search.typesPage
+            })
+        },
+        scroll(e){
+            console.log('e.target.scrollTop',e.target.scrollTop)
+            if(e.target.scrollTop>=45){
+                this.changeScroll(2)
+            }else{
+                this.changeScroll(1)
+            }
+        },
+        lower(){
+            this.getSearch({
+                queryWord:this.search.value,
+                queryType:this.search.typesKey,
+                querySort:this.search.typesSort,
+                pageIndex:++this.search.typesPage
             })
         }
     },
@@ -68,6 +90,13 @@ export default {
 .wrapper{
     width:100%;
     height:100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .wrap{
+        width:100%;
+        height:100%;
+    }
 }
 .header{
     width:100%;

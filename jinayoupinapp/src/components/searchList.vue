@@ -1,6 +1,6 @@
 <template>
     <view class="comWrapper">
-        <view class="comWrapTop">
+        <view :class="scroll===2?'suctionTop':'comWrapTop'">
             <view class="comTop">
                 <text v-for="(item,index) in types" 
                 :key="index" 
@@ -25,7 +25,7 @@
                     <text>￥{{item.vipPrice}}</text>
                 </view>
             </view>
-        </view>
+        </view>    
     </view>
 </template>
 
@@ -38,7 +38,8 @@ export default {
             searchArr:state=>state.index.searchArr,
             search:state=>state.index.search,
             child:state=>state.index.child,
-            flag:state=>state.index.flag
+            flag:state=>state.index.flag,
+            scroll:state=>state.index.scroll
         })
     },
     methods:{
@@ -71,53 +72,56 @@ export default {
 <style lang="scss" scoped>
 .comWrapper{
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: auto;
 }
 .comWrapTop{
     width:100%;
     height:80rpx;
     background:#fff;
-    .comTop{
-        width: 100%;
-        height:100%;
-        display: flex;
-        align-items: center;
-        text{
-            flex:1;
-            text-align: center;
-            font-size: 26rpx;
-            color:#666;
-        }
-        text.active{
-            color:skyblue!important;
-        }    
-    }
-    .sho{
-        position: fixed;
-        right:0;
-        top:180rpx;
-        z-index: 999;
-        width:250rpx;
-        height:100rpx;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        background:#fff;
-        padding:0 20rpx;
-        box-sizing: border-box;
-        text{
-            width:100%;
-            flex:1;
-        }
-    }
 }
 .suctionTop{
+    width:100%;
+    height:80rpx;
+    background:#fff;
     position: fixed;
     top:0;
     left:0;
+}
+.comTop{
+    width: 100%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    text{
+        flex:1;
+        text-align: center;
+        font-size: 26rpx;
+        color:#666;
+    }
+    text.active{
+        color:skyblue!important;
+    }    
+}
+.sho{
+    position: fixed;
+    right:0;
+    top:180rpx;
+    z-index: 999;
+    width:250rpx;
+    height:100rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background:#fff;
+    padding:0 20rpx;
+    box-sizing: border-box;
+    text{
+        width:100%;
+        flex:1;
+    }
 }
 .comMain{
     width:100%;

@@ -27,7 +27,7 @@
                     <text>共{{item.products[0].productNumber}}件商品 合计：￥{{item.totalAmount}}</text>
                     <view class="btns" v-if="item.processStatus === 1">
                         <button @click="cacels(item.orderId)">取消订单</button>
-                        <button>去付款{{item.totalAmount}}</button>
+                        <button @click="goPay(item.products[0].pid)">去付款{{item.totalAmount}}</button>
                     </view>
                 </view>
             </view>
@@ -43,7 +43,9 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 export default {
     onShow(){
-        this.products();
+        this.products({
+            page:1
+        });
     },
     computed:{
         ...mapState({
@@ -58,7 +60,8 @@ export default {
             cacel:'mine/cacel'
         }),
         ...mapMutations({
-            changeKey:"mine/changeKey"
+            changeKey:"mine/changeKey",
+            changePid:'mine/changePid'
         }),
         tabs(key){
             this.changeKey(key);
@@ -69,17 +72,30 @@ export default {
             wx.showModal({
                 title: '温馨提示',
                 content: '是否取消订单?',
-                success (res) {
+                success: async res=> {
                     if (res.confirm) {
-                        console.log()
-                        that.cacel({
+                        let data = await that.cacel({
                             orderNumber:orderId
                         })
-                        console.log('用户点击确定')
+                        console.log(data);
+                        if(data.res_code === 1){
+                            wx.showToast({
+                                title: '订单取消成功',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                            this.products();
+                        }
                     } else if (res.cancel) {
                         console.log('用户点击取消')
                     }
                 }
+            })
+        },
+        goPay(key){
+            this.changePid(key)
+            wx.navigateTo({
+                url:"/pages/pay/main"
             })
         }
     }

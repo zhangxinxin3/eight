@@ -49,6 +49,7 @@ const state = {
     pageIndex: 1,//页面数据加载页数
     bannerToList: [],//banner进入详情的数据,
     DalList: {},//banner详情点击对应数据
+    scroll:1
 }
 
 //异步改变
@@ -187,20 +188,23 @@ const mutations = {
     },
     //搜索列表
     upSearch(state, payload) {
-        state.searchArr = payload.data;
+        if(payload.payload.pageIndex===1){
+            state.searchArr = payload.data;
+        }else{
+            payload.data.map(item=>{
+                state.searchArr.push(item);
+            })
+        }
         state.search.value = payload.payload.queryWord;
         state.search.typesKey = payload.payload.queryType;
         state.search.typesSort = payload.payload.querySort;
-        console.log('state.search', state.search)
+        state.search.typesPage = payload.payload.pageIndex;
         if (payload.payload.queryType === 2) {
             state.flag = !state.flag;
         }
-        console.log("state.flag", state.flag)
         let data = state.historyArr.filter(item => item === payload.payload.queryWord);
-        console.log('data', data)
         if (data.length === 0) {
             state.historyArr.push(payload.payload.queryWord);
-            console.log('state.historyArr', state.historyArr)
             wx.setStorage({
                 key: "historyArr",
                 data: JSON.stringify(state.historyArr)
@@ -231,30 +235,9 @@ const mutations = {
     changePage(state,payload){
         state.pageIndex=payload
     },
-    changeSortType(state,payload){
-        state.sortType=payload
-    },
-    //搜索列表
-    upSearch(state,payload){
-        state.searchArr = payload.data;
-        let data = state.historyArr.filter(item=>item===payload.queryWord);
-        if(data.length){
-            return;
-        }else{
-            state.historyArr.push(payload.value);
-        }
-        state.value = payload.queryWord;
-        state.typesKey = payload.queryType;
-        state.typesSort = payload.querySort;
-    },
-    //点击banner进入详情同步
-    bannerTo(state,payload){
-        state.bannerToList=payload;
-        console.log("bannerToList",state.bannerToList)
-    },
-    //banner详情点击切换同步
-    bannerItem(state,payload){
-        state.DalList=payload;
+    changeScroll(state,payload){
+        console.log(payload)
+        state.scroll = payload;
     }
 }
 

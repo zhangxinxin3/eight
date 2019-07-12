@@ -25,10 +25,15 @@ export let noneFind = params =>{
     return request.post('/api/open/product/coupon/productCouponList/1.0.0?pid='+'50408'+'&bid'+'115'+'&uid'+'150'+'&usiid')
 }
 
-export let  shopDetail = params =>{
+export let shopDetail = params =>{
     return request.post('/api/open/order/prepare/1.0.0',params)
 }
 
 export let pay = params =>{
     return request.post('/api/open/order/place/order/1.0.0',params)
+}
+
+export let share = params =>{
+    console.log('params',params)
+    return request.post('/api/open/product/info/1.0.0',params)
 }

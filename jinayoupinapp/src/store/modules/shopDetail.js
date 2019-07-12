@@ -1,4 +1,4 @@
-import { getDetail,getChoose, getAddress, getDownPic, shopDetail, pay  } from '@/service/shopDetail'
+import { getDetail, getChoose, getAddress, getDownPic, shopDetail, pay, share  } from '@/service/shopDetail'
 
 const state = {
     getDetailList:[],
@@ -6,10 +6,10 @@ const state = {
     chooseList:[],
     hintAddress:'',
     picDownList:[],
-    getDetailList:[],
     shopDetailList:{},
     subOrderId:'',
-    maskList:[]
+    maskList:[],
+    shareData:{}
 }
 
 const mutations = {
@@ -17,6 +17,9 @@ const mutations = {
         console.log('payload',payload);
         state.shopDetailList = payload;
         state.subOrderId = payload.subOrder[0].subOrderId;
+    },
+    upShare(state,payload){
+        state.shareData = payload;
     }
 }
 
@@ -58,6 +61,18 @@ const actions = {
             platform:4
         });
         console.log('支付',data)
+    },
+    //分享
+    async share(store,payload){
+        let data = await share({
+            pid:852
+        })
+        console.log('分享',data)
+        if(data.res_code === 1){
+            store.commit('upShare',data.result)
+        }else{
+            store.commit('upShare',{})
+        }
     }
 }
 
