@@ -54,12 +54,12 @@ export default {
         var context = wx.createCanvasContext('myCanvas'); 
         context.rect(0, 0, 320, 520);
         context.drawImage(user.userImg, 0, 0, 40, 40, 20, 12, 34, 34);
-        context.draw(true);
+        // context.draw(true);
         context.save();
         context.setFontSize(12);
         context.fillText(`${user.userName}分享给你一个商品`, 80, 24)
         context.fillText(`邀请码: dasbdabdbaj`, 80, 42)
-        context.draw(true);
+        // context.draw(true);
         // 绘制商品大图和标题
         context.save();
         context.setFontSize(12);
@@ -68,15 +68,15 @@ export default {
         for (let i=0; i<data.title.length; i++){
             let str = data.title.slice(pos, i);
             if (context.measureText(str).width > 266 && context.measureText(str).width < 280){
-                context.fillText(data.title.slice(pos, i), 20, 300+15*row);
+                context.fillText(data.title.slice(pos, i), 20, 280+15*row);
                 row++;
                 pos = i;
             }
         }
         if (pos < data.title.length){
-            context.fillText(data.title.slice(pos, data.title.length), 20, 300+15*row);
+            context.fillText(data.title.slice(pos, data.title.length), 20, 280+15*row);
         }
-        context.draw(true);
+        // context.draw(true);
         context.restore();
         // 拿到图片的宽高
         wx.getImageInfo({
@@ -84,49 +84,44 @@ export default {
             complete: res => {
                 console.log('res...', res);
                 let rx, ry, rw, rh;
-                if (res.width/res.height > 220/200){
+                if (res.width/res.height > 220/180){
                     ry = 0;
                     rh = res.height;
-                    rw = res.height/220*200;
+                    rw = res.height/220*180;
                     rx = (res.width - rw)/2;
                 }else{
                     rx = 0;
                     rw = res.width;
-                    rh = res.height/200*220;
+                    rh = res.height/180*220;
                     ry = (res.height - rh)/2;
                 }
-                context.drawImage(data.mainImgUrl, 0, 0, res.width, res.height, 50, 80, 220, 200);
-                // context.draw(true)
-                context.draw(true, ()=>{
-                    // 生成图片
-                    wx.canvasToTempFilePath({
-                        canvasId: 'myCanvas',
-                        quality: 1,
-                        fileType: 'jpg',
-                        complete: res=>{
-                            console.log('tmpFile...', res);
-                            wx.previewImage({
-                                urls: [res.tempFilePath] 
-                            });
-                            // 保存到本地
-                            wx.setStorage({
-                                key:"tempFilePath",
-                                data:res.tempFilePath
-                            })
-                        }
-                    })
-                });
+                context.drawImage(data.mainImgUrl, 0, 0, res.width, res.height, 50, 80, 220, 180);
+                context.draw(true);
+                // context.draw(true, ()=>{
+                //     wx.canvasToTempFilePath({
+                //         canvasId: 'myCanvas',
+                //         quality: 1,
+                //         fileType: 'jpg',
+                //         complete: res=>{
+                //             console.log('tmpFile...', res);
+                //             wx.setStorage({
+                //                 key:"tempFilePath",
+                //                 data:res.tempFilePath
+                //             })
+                //         }
+                //     })
+                // });
             }
         });
         // 绘制二维码
         context.save();
         context.setFontSize(15);
         context.fillText('长按识别二维码访问', 20, 370);
+        // context.draw(true);
         context.restore();
-        context.draw(true);
         context.save();
-        context.drawImage(qrCode, 0, 0, 1000, 1000, 200, 320, 80, 80);
-        context.draw(true);
+        context.drawImage(qrCode, 0, 0, 1000, 1000, 200, 300, 80, 80);
+        // context.draw(true);
         // 绘制商品价格
         context.save();
         context.setFontSize(10);
@@ -138,8 +133,8 @@ export default {
         context.setFillStyle('#999');
         // info.result.marketPrice = '88888.888888';
         context.fillText(`￥${data.marketPrice}`, 155-context.measureText(`￥${data.marketPrice}`).width, 340);
+        // context.draw(true);
         context.restore();
-        context.draw(true);
     }
 }
 </script>

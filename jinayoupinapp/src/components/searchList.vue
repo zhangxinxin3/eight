@@ -66,10 +66,10 @@ export default {
             })
         },
         detail(item){
-            console.log(item)
-            // wx.navigateTo({
-            //     url:'/pages/shop/shopDetail/main?pid'=
-            // })
+            this.$store.dispatch("shopDetail/shopItem",item.pid);
+            wx.navigateTo({
+                url:'/pages/shop/shopDetail/main'
+            })
         }
     }
 }

@@ -154,7 +154,7 @@ export default {
     sure(){
         //点击确定 弹框消失
         this.show = false;
-        //进行跳转页面  做本地存储
+        // 进行跳转页面  做本地存储
         this.$store.commit('shopDetail/save',{
             pid:this.getDetailList.pid,
             skuKey:this.getKuangList.skuKey,
@@ -181,6 +181,9 @@ export default {
     },
     //分享
     share(){
+        this.$store.commit('shopDetail/saves',{
+            pid:this.getDetailList.pid
+        })
         wx.navigateTo({
             url:"/pages/shop/canvas/main"
         })
@@ -201,8 +204,7 @@ export default {
       userIdentity: this.getDetailList.userIdentity
     });
   },
-  onLoad(options){
-      console.log(options)
+  onLoad(){
     this.activeCurrent = 1;
     this.$set(this.Arrays, index, i);
     this.Arrays = [];

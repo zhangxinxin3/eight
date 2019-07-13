@@ -88,9 +88,11 @@ export default {
             this.pays()
         }
     },
-    onShow(options){
-        console.log(options)
+    onShow(){
         this.shopDetail();
+    },
+    onLoad(options){
+        console.log('options',options)
     }
 }
 </script>

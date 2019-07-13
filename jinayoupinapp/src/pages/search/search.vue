@@ -15,10 +15,10 @@
                 <view class="mainHis" v-if="hidden">
                     <view class="mainTop">
                         <text>历史搜索</text>
-                        <image src="/static/images/del.png" alt="" @click="remove" />
+                        <image src="/static/images/del.png" alt="" @click="remove()" />
                     </view>
                     <view class="mains">
-                        <text v-for="(item,index) in historyArr" :key="index">{{item}}</text>
+                        <text v-for="(item,index) in historyArr" :key="index" @click="bind(item)">{{item}}</text>
                     </view>    
                 </view>
                 <SearchList v-else></SearchList>
@@ -84,6 +84,15 @@ export default {
                 key: "historyArr"
             })
             this.$store.commit('index/getHis')
+        },
+        bind(item){
+            this.hidden = false;
+            this.getSearch({
+                queryWord:item,
+                queryType:this.search.typesKey,
+                querySort:this.search.typesSort,
+                pageIndex:this.search.typesPage
+            })
         }
     },
     onShow(){

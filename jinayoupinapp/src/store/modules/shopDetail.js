@@ -11,7 +11,8 @@ const state = {
     maskList:[],
     shareData:{},
     getKuangList:[], //获取弹框的值
-    shopcar:{}
+    shopcar:{},
+    pid:''
 }
 
 const mutations = {
@@ -26,6 +27,11 @@ const mutations = {
     },
     save(state,payload){
         state.shopcar = payload;
+        // console.log('state.shopcar')
+    },
+    saves(state,payload){
+        state.pid = payload.pid;
+        // console.log('state.shopcar')
     }
 }
 
@@ -75,8 +81,9 @@ const actions = {
     },
     //分享
     async share(store,payload){
+        console.log('store',store.state.pid)
         let data = await share({
-            pid:852
+            pid:store.state.pid
         })
         console.log('分享',data.result)
         if(data.res_code === 1){

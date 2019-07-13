@@ -17,15 +17,15 @@
 <script>
 import {mapActions, mapState} from "vuex";
 export default {
-   props: ['data'],
-   methods:{
-       shopDetail(item){
-         this.$store.dispatch("shopDetail/shopItem",item.pid);
-         wx.navigateTo({
-             url:"/pages/shop/shopDetail/main"
-         })
-       }
-   }
+    props: ['data'],
+    methods:{
+        shopDetail(item){
+            this.$store.dispatch("shopDetail/shopItem",item.pid);
+            wx.navigateTo({
+                url:"/pages/shop/shopDetail/main"
+            })
+        }
+    }
 }
 </script>
 
